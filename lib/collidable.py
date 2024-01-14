@@ -24,12 +24,12 @@ class Collidable:
             if hasattr(obj, "collider"):
                 if obj.collider.colliding(self) and not obj.collider.stationary:
                     if obj.collider.rect.top <= self.collider.rect.top: # object coming from above
-                        obj.y -= 6
+                        obj.y = self.y - obj.h
                     elif obj.collider.rect.center >= self.collider.rect.center: # object coming from right
-                        obj.x += obj.speed
+                        obj.x = self.collider.rect.right
                         if obj.mass > self.mass and not self.collider.stationary:
-                            self.x -= 1
+                            self.x -= self.core.player.speed / 2
                     elif obj.collider.rect.center <= self.collider.rect.center:  # object coming from left
-                        obj.x -= obj.speed
+                        obj.x = self.collider.rect.left - obj.w
                         if obj.mass > self.mass and not self.collider.stationary:
-                            self.x += 1
+                            self.x += self.core.player.speed / 2

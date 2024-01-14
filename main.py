@@ -20,6 +20,9 @@ while running:
     for event in events:
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_F11:
+                pygame.display.toggle_fullscreen()
     if running:
         core.loop(events)
         clock.tick(60)

@@ -11,26 +11,30 @@ class Test(Scene):
         super().__init__()
         self.initBackgrounds()
         self.initGround()
-        self.initEnemy()
+        self.initObjects()
+        self.add(self.core.player) # add player to foremost layer
+        # self.initEnemy()
 
     def loop(self):
         pygame.display.get_surface().fill([255, 255, 255])
-        self.applygravity()
-        super().loop()
-
+        self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
+        super().loop() # this is where every object in the scene has its loop() called
+        
     def initGround(self):
         self.initFloorTiles()
-        ss = pygame.image.load("data/assets/objects/TX Village Props.png")
-        boximg = pygame.transform.scale(ss.subsurface((41, 18, 47, 45)), (100, 100))
         wall = Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=True)
-        wall2 = Collidable(self.core, 800, 368, 800, 250, stationary=True, debug=True)
-        box = Collidable(self.core, 400, 200, 100, 100, mass=1, image=boximg)
+        wall2 = Collidable(self.core, 800, 400, 800, 250, stationary=True, debug=True)
         self.add(Collidable(self.core, 0, 600, 128, 128, stationary=True, image=self.floortiles[0]))
         for x in range(10):
             self.add(Collidable(self.core, 128 * x, 600, 128, 128, stationary=True, image=self.floortiles[1], debug=True))
         self.add(Collidable(self.core, (128*x) + 32, 600, 128, 128, stationary=True, image=self.floortiles[2]))
         self.add(wall)
         self.add(wall2)
+
+    def initObjects(self):
+        ss = pygame.image.load("data/assets/objects/TX Village Props.png")
+        boximg = pygame.transform.scale(ss.subsurface((41, 18, 47, 45)), (100, 100))
+        box = Collidable(self.core, 400, 200, 100, 100, mass=1, image=boximg)
         self.add(box)
 
     def initEnemy(self):

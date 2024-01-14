@@ -24,7 +24,7 @@ class Collidable:
             if hasattr(obj, "collider"):
                 if obj.collider.colliding(self) and not obj.collider.stationary:
                     if obj.collider.rect.top <= self.collider.rect.top: # object coming from above
-                        obj.y = self.y - obj.h
+                        obj.y = self.y - obj.h + 1
                     elif obj.collider.rect.center >= self.collider.rect.center: # object coming from right
                         obj.x = self.collider.rect.right
                         if obj.mass > self.mass and not self.collider.stationary:

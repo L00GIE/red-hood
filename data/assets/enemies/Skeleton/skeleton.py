@@ -9,12 +9,12 @@ class Skeleton(Enemy):
         self.core = core
         self.x = 600
         self.y = 200
-        self.w = 150
-        self.h = 150
+        self.w = 80
+        self.h = 80
         self.hp = 10
         self.mass = 10
         self.speed = 3
-        self.collider = Collider(self, debug=True)
+        self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
@@ -35,7 +35,7 @@ class Skeleton(Enemy):
         self.checkWalking()
         if self.collider.colliding(self.core.player):
             self.attack()
-        self.collider.update(self.x + 40, self.y + 45, 60, 60)
+        self.collider.update()
         self.currentanimation.play()
 
     def checkWalking(self):
@@ -52,20 +52,29 @@ class Skeleton(Enemy):
 
     def initAnimations(self):
         ss = pygame.image.load("data/assets/enemies/Skeleton/Walk.png")
-        walksprites = []
-        for x in range(4):
-            walksprites.append(ss.subsurface(self.w * x, 0, self.w, self.h))
+        walksprites = [
+            ss.subsurface(57, 48, 50, 55),
+            ss.subsurface(206, 48, 50, 55),
+            ss.subsurface(356, 48, 50, 55),
+            ss.subsurface(506, 48, 50, 55)
+        ]
         self.walkRightAnimation = Animation(walksprites, self)
         self.walkLeftAnimation = Animation(walksprites, self, flipx=True)
         ss = pygame.image.load("data/assets/enemies/Skeleton/Attack.png")
-        atksprites = []
-        for x in range(8):
-            atksprites.append(ss.subsurface(self.w * x, 0, self.w, self.h))
+        atksprites = [
+            ss.subsurface(57, 48, 50, 55),
+            ss.subsurface(206, 48, 50, 55),
+            ss.subsurface(356, 48, 50, 55),
+            ss.subsurface(506, 48, 50, 55)
+        ]
         self.attackRightAnimation = Animation(atksprites, self)
         self.attackLeftAnimation = Animation(atksprites, self, flipx=True)
         ss = pygame.image.load("data/assets/enemies/Skeleton/Death.png")
-        diesprites = []
-        for x in range(4):
-            diesprites.append(ss.subsurface(self.w * x, 0, self.w, self.h))
+        diesprites = [
+            ss.subsurface(57, 48, 50, 55),
+            ss.subsurface(206, 48, 50, 55),
+            ss.subsurface(356, 48, 50, 55),
+            ss.subsurface(506, 48, 50, 55)
+        ]
         self.dieRightAnimation = Animation(diesprites, self, delay=10)
         self.dieLeftAnimation = Animation(diesprites, self, delay=10, flipx=True)

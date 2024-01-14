@@ -19,7 +19,7 @@ class Player:
         self.direction = "e"
         self.attacking = False
         self.jumping = False
-        self.collider = Collider(self, debug=True)
+        self.collider = Collider(self, debug=False)
 
     def loop(self):
         self.checkInput()

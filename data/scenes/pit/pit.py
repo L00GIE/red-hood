@@ -17,6 +17,16 @@ class Pit(Scene):
         self.positionedplayer = False
 
     def loop(self):
+        if not self.positionedplayer:
+            self.core.player.x = 100
+            self.core.player.y = -100
+            self.positionedplayer = True
+        self.checkBounds()
+        pygame.display.get_surface().fill([255, 255, 255])
+        self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
+        super().loop() # this is where every object in the scene has its loop() called
+
+    def checkBounds(self):
         numskellys = 0
         for layer in self.layers:
             for obj in layer:
@@ -24,13 +34,6 @@ class Pit(Scene):
                     numskellys += 1 
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = Pit(self.core)
-        if not self.positionedplayer:
-            self.core.player.x = 100
-            self.core.player.y = -100
-            self.positionedplayer = True
-        pygame.display.get_surface().fill([255, 255, 255])
-        self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
-        super().loop() # this is where every object in the scene has its loop() called
         
     def initGround(self):
         self.initFloorTiles()
@@ -43,10 +46,9 @@ class Pit(Scene):
         ss = pygame.image.load("data/assets/objects/TX Village Props.png")
 
     def initEnemy(self):
-        for x in range(1, random.randint(1, 5)):
-            enemy = Skeleton(self.core)
-            enemy.y = 600
-            self.add(enemy)
+        enemy = Skeleton(self.core)
+        enemy.y = 600
+        self.add(enemy)
 
     def initBackgrounds(self):
         bg1 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_1.png"), (1366,768)))

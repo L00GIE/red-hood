@@ -1,6 +1,7 @@
 import pygame
 from lib.animation import Animation
 from lib.collider import Collider
+from lib.healthbar import HealthBar
 
 class Player:
     def __init__(self, core):
@@ -15,6 +16,9 @@ class Player:
         self.minspeed = 3
         self.maxspeed = 6
         self.dmg = 2
+        self.hp = 100
+        self.maxhp = 100
+        self.healthbar = HealthBar(self)
         self.initAnimations()
         self.currentanimation = self.idleRightAnimation
         self.direction = "e"
@@ -26,6 +30,7 @@ class Player:
         self.checkInput()
         self.collider.update()
         self.currentanimation.play()
+        self.healthbar.loop()
 
     def checkInput(self):
         self.checkAttack()
@@ -76,6 +81,8 @@ class Player:
         for obj in self.core.scene.layers[4]:
             if self.collider.colliding(obj) and hasattr(obj, "hp") and obj != self.core.player:
                 obj.hp -= self.dmg
+                if hasattr(obj, "takehit"):
+                    obj.takehit()
 
     def checkJump(self):
         for event in self.core.events:

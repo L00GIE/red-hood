@@ -1,4 +1,5 @@
 from data.assets.enemies.Skeleton.skeleton import Skeleton
+from data.scenes.pit.pit import Pit
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
@@ -6,7 +7,7 @@ import pygame
 
 from lib.staticimg import StaticImage
 
-class Test(Scene):
+class Start(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -15,9 +16,10 @@ class Test(Scene):
         self.initGround()
         self.initObjects()
         self.add(self.core.player) # add player to foremost layer
-        self.initEnemy()
 
     def loop(self):
+        if self.core.player.x > pygame.display.get_surface().get_width():
+            self.core.scene = Pit(self.core)
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
         super().loop() # this is where every object in the scene has its loop() called
@@ -47,11 +49,6 @@ class Test(Scene):
         self.add(signtext)
         self.add(signtext1)
 
-    def initEnemy(self):
-        enemy = Skeleton(self.core)
-        enemy.y = 600
-        self.add(enemy)
-
     def initBackgrounds(self):
         bg1 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_1.png"), (1366,768)))
         bg2 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_2.png"), (1366,768)), scrollspeed=2)
@@ -65,13 +62,7 @@ class Test(Scene):
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 64, 32, 32)), (128, 128))
+            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128))
         ]
 
     def applygravity(self):

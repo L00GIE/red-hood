@@ -11,7 +11,7 @@ class Skeleton(Enemy):
         self.y = 200
         self.w = 80
         self.h = 80
-        self.hp = 10
+        self.hp = 15
         self.mass = 10
         self.speed = 3
         self.collider = Collider(self, debug=False)

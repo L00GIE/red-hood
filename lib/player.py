@@ -14,6 +14,7 @@ class Player:
         self.speed = 3
         self.minspeed = 3
         self.maxspeed = 6
+        self.dmg = 2
         self.initAnimations()
         self.currentanimation = self.idleRightAnimation
         self.direction = "e"
@@ -61,13 +62,20 @@ class Player:
                     elif self.direction == "w":
                         self.currentanimation = self.atkLeftAnimation
                     self.attacking = True
-        if self.attacking and self.currentanimation.ended:
-            for obj in self.core.scene.layers[4]:
-                if self.collider.colliding(obj) and hasattr(obj, "hp") and obj != self.core.player:
-                    obj.hp -= 100
+        if self.attacking and self.currentanimation.currentframe == int(len(self.currentanimation.sprites) / 3):
+            self.dodamage()
+        elif self.attacking and self.currentanimation.currentframe == int((len(self.currentanimation.sprites) / 3) * 2):
+            self.dodamage()
+        elif self.attacking and self.currentanimation.ended:
+            self.dodamage()
             self.atkRightAnimation.reset()
             self.atkLeftAnimation.reset()
             self.attacking = False
+
+    def dodamage(self):
+        for obj in self.core.scene.layers[4]:
+            if self.collider.colliding(obj) and hasattr(obj, "hp") and obj != self.core.player:
+                obj.hp -= self.dmg
 
     def checkJump(self):
         for event in self.core.events:
@@ -108,21 +116,21 @@ class Player:
         self.idleLeftAnimation = Animation(idlesprites, self, flipx=True)
         ss = pygame.image.load("data/assets/player/itch run-Sheet sheet.png")
         runsprites = []
-        for x in range(24):
+        for x in range(47):
             runsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
         runsprites = runsprites[::2]
         self.runRightAnimation = Animation(runsprites, self)
         self.runLeftAnimation = Animation(runsprites, self, flipx=True)
         ss = pygame.image.load("data/assets/player/itch light atk sheet-Sheet.png")
         atksprites = []
-        for x in range(26):
-            atksprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
+        for x in range(51):
+            atksprites.append(ss.subsurface(((spritesize * x) + 10, 20, 60, spritesize)))
         atksprites = atksprites[::2]
         self.atkRightAnimation = Animation(atksprites, self, delay=2)
         self.atkLeftAnimation = Animation(atksprites, self, flipx=True, delay=2)
         ss = pygame.image.load("data/assets/player/itch jump sheet-Sheet.png")
         jumpsprites = []
-        for x in range(19):
+        for x in range(37):
             jumpsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
         jumpsprites = jumpsprites[::2]
         self.jumpRightAnimation = Animation(jumpsprites, self, delay=2)

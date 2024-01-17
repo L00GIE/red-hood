@@ -2,12 +2,26 @@ import pygame
 
 class HealthBar:
 
-    def __init__(self, parent, rightside=False):
+    def __init__(self, parent, title=None, rightside=False):
         self.parent = parent
+        self.title = title
         self.rightside = rightside
         self.initsprites()
+        self.font = pygame.font.SysFont("Helvetica", 26)
 
     def loop(self):
+        self.showHearts()
+        if self.title is not None:
+            self.showTitle()
+
+    def showTitle(self):
+        screen = pygame.display.get_surface()
+        titletext = self.font.render(self.title, True, [255, 255, 255])
+        xpos = screen.get_width() - titletext.get_width() - 10
+        ypos = self.fullheart.get_height() + 10
+        pygame.display.get_surface().blit(titletext, (xpos, ypos))
+
+    def showHearts(self):
         screen = pygame.display.get_surface()
         percent = (self.parent.hp / self.parent.maxhp) * 100
         if not self.rightside:
@@ -65,7 +79,7 @@ class HealthBar:
                 screen.blit(self.emptyheart, (xpos + (self.fullheart.get_width() * x), ypos))
 
     def initsprites(self):
-        ss = pygame.image.load("data/assets/ui/icons.png")
+        ss = pygame.image.load("data/assets/ui/icons.png").convert_alpha()
         self.fullheart = pygame.transform.scale_by(ss.subsurface(0, 16, 16, 16), 3)
         self.halfheart = pygame.transform.scale_by(ss.subsurface(16, 16, 16, 16), 3)
         self.emptyheart = pygame.transform.scale_by(ss.subsurface(32, 16, 16, 16), 3)

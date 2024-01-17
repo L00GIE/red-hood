@@ -34,8 +34,8 @@ class Start(Scene):
         self.add(wall)
 
     def initObjects(self):
-        ss = pygame.image.load("data/assets/objects/TX Village Props.png")
-        signimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/donotentersign.png"), 0.8)
+        ss = pygame.image.load("data/assets/objects/TX Village Props.png").convert_alpha()
+        signimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/donotentersign.png").convert_alpha(), 0.8)
         boximg = pygame.transform.scale(ss.subsurface((41, 18, 47, 45)), (100, 100))
         scaffoldimg = pygame.transform.scale(ss.subsurface((187, 162, 72, 64)), (216, 192))
         box = Collidable(self.core, 400, -200, 100, 100, mass=1, image=boximg)
@@ -50,15 +50,18 @@ class Start(Scene):
         self.add(signtext1)
 
     def initBackgrounds(self):
-        bg1 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_1.png"), (1366,768)))
-        bg2 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_2.png"), (1366,768)), scrollspeed=2)
-        bg3 = Background(self.core, pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_3.png"), (1366,768)), scrollspeed=4)
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_1.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_2.png").convert_alpha(), (1366,768))
+        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_3.png").convert_alpha(), (1366,768))
+        bg1 = Background(self.core, bgimg1)
+        bg2 = Background(self.core, bgimg2, scrollspeed=2)
+        bg3 = Background(self.core, bgimg3, scrollspeed=4)
         self.add(bg1, 0)
         self.add(bg2, 1)
         self.add(bg3, 2)
 
     def initFloorTiles(self):
-        ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png")
+        ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png").convert_alpha()
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),

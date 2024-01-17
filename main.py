@@ -8,7 +8,7 @@ windowed = True
 
 pygame.init()
 if windowed:
-    screen = pygame.display.set_mode((1366, 768))
+    screen = pygame.display.set_mode((1366, 768), pygame.HWSURFACE)
 else:
     screen = pygame.display.set_mode((1366, 768), pygame.FULLSCREEN)
 core = Core()

@@ -6,7 +6,7 @@ class Core:
 
     def __init__(self):
         self.player = Player(self) # initialize player
-        self.scene = Pit(self) # initialize start scene
+        self.scene = Start(self) # initialize start scene
 
     def loop(self, events):
         self.events = events

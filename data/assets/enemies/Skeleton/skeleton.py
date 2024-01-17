@@ -17,7 +17,7 @@ class Skeleton(Enemy):
         self.hp = 100 if boss else 15
         self.maxhp = self.hp
         if boss:
-            self.healthbar = HealthBar(self, rightside=True)
+            self.healthbar = HealthBar(self, title="King Skelly", rightside=True)
         self.mass = 10
         self.speed = 3
         self.dmg = 1

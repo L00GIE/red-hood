@@ -114,28 +114,28 @@ class Player:
 
     def initAnimations(self):
         spritesize = 40
-        ss = pygame.image.load("data/assets/player/idle sheet-Sheet.png")
+        ss = pygame.image.load("data/assets/player/idle sheet-Sheet.png").convert_alpha()
         idlesprites = []
         for x in range(35):
             idlesprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
         idlesprites = idlesprites[::2]
         self.idleRightAnimation = Animation(idlesprites, self)
         self.idleLeftAnimation = Animation(idlesprites, self, flipx=True)
-        ss = pygame.image.load("data/assets/player/itch run-Sheet sheet.png")
+        ss = pygame.image.load("data/assets/player/itch run-Sheet sheet.png").convert_alpha()
         runsprites = []
         for x in range(47):
             runsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
         runsprites = runsprites[::2]
         self.runRightAnimation = Animation(runsprites, self)
         self.runLeftAnimation = Animation(runsprites, self, flipx=True)
-        ss = pygame.image.load("data/assets/player/itch light atk sheet-Sheet.png")
+        ss = pygame.image.load("data/assets/player/itch light atk sheet-Sheet.png").convert_alpha()
         atksprites = []
         for x in range(51):
             atksprites.append(ss.subsurface(((spritesize * x) + 10, 20, 60, spritesize)))
         atksprites = atksprites[::2]
         self.atkRightAnimation = Animation(atksprites, self, delay=2)
         self.atkLeftAnimation = Animation(atksprites, self, flipx=True, delay=2)
-        ss = pygame.image.load("data/assets/player/itch jump sheet-Sheet.png")
+        ss = pygame.image.load("data/assets/player/itch jump sheet-Sheet.png").convert_alpha()
         jumpsprites = []
         for x in range(37):
             jumpsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))

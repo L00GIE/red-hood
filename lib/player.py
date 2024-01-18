@@ -2,6 +2,7 @@ import pygame
 from lib.animation import Animation
 from lib.collider import Collider
 from lib.healthbar import HealthBar
+from lib.projectile import Projectile
 
 class Player:
     def __init__(self, core):
@@ -23,6 +24,7 @@ class Player:
         self.currentanimation = self.idleRightAnimation
         self.direction = "e"
         self.attacking = False
+        self.shooting = False
         self.jumping = False
         self.collider = Collider(self, debug=False)
 
@@ -52,7 +54,7 @@ class Player:
             self.move("e")
         if keys[pygame.K_a]:
             self.move("w")
-        if not keys[pygame.K_d] and not keys[pygame.K_a] and not self.jumping:
+        if not keys[pygame.K_d] and not keys[pygame.K_a] and not self.jumping and not self.shooting:
             if self.direction == "e":
                 self.currentanimation = self.idleRightAnimation
             elif self.direction == "w":
@@ -62,20 +64,35 @@ class Player:
         for event in self.core.events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and not self.attacking:
-                    if self.direction == "e":
-                        self.currentanimation = self.atkRightAnimation
-                    elif self.direction == "w":
-                        self.currentanimation = self.atkLeftAnimation
-                    self.attacking = True
-        if self.attacking and self.currentanimation.currentframe == int(len(self.currentanimation.sprites) / 3):
-            self.dodamage()
-        elif self.attacking and self.currentanimation.currentframe == int((len(self.currentanimation.sprites) / 3) * 2):
-            self.dodamage()
-        elif self.attacking and self.currentanimation.ended:
-            self.dodamage()
-            self.atkRightAnimation.reset()
-            self.atkLeftAnimation.reset()
-            self.attacking = False
+                    self.attack()
+                elif event.button == 3 and not self.attacking:
+                    self.shootArrow()
+                    return
+        if self.attacking:
+            self.doSwordAttack()
+        elif self.shooting:
+            self.doShoot()
+
+    def doShoot(self):
+        if self.direction == "e":
+            self.currentanimation = self.shootRightAnimation
+        elif self.direction == "w":
+            self.currentanimation = self.shootLeftAnimation
+        if self.currentanimation.currentframe == len(self.currentanimation.sprites) - int(len(self.currentanimation.sprites) / 3):
+            if self.direction == "e":
+                arrow = Projectile(self, self.direction, self.arrowimg)
+            elif self.direction == "w":
+                arrow = Projectile(self, self.direction, self.arrowimgleft)
+            self.core.scene.add(arrow)
+        if self.currentanimation.ended:
+            self.shooting = False
+
+    def shootArrow(self):
+        if self.direction == "e":
+            self.currentanimation = self.shootRightAnimation
+        elif self.direction == "w":
+            self.currentanimation = self.shootLeftAnimation
+        self.shooting = True
 
     def dodamage(self):
         for obj in self.core.scene.layers[4]:
@@ -83,6 +100,24 @@ class Player:
                 obj.hp -= self.dmg
                 if hasattr(obj, "takehit"):
                     obj.takehit()
+
+    def doSwordAttack(self):
+        if self.currentanimation.currentframe == int(len(self.currentanimation.sprites) / 3):
+            self.dodamage()
+        elif self.currentanimation.currentframe == int((len(self.currentanimation.sprites) / 3) * 2):
+            self.dodamage()
+        elif self.currentanimation.ended:
+            self.dodamage()
+            self.atkRightAnimation.reset()
+            self.atkLeftAnimation.reset()
+            self.attacking = False
+
+    def attack(self):
+        if self.direction == "e":
+            self.currentanimation = self.atkRightAnimation
+        elif self.direction == "w":
+            self.currentanimation = self.atkLeftAnimation
+        self.attacking = True
 
     def checkJump(self):
         for event in self.core.events:
@@ -142,4 +177,15 @@ class Player:
         jumpsprites = jumpsprites[::2]
         self.jumpRightAnimation = Animation(jumpsprites, self, delay=2)
         self.jumpLeftAnimation = Animation(jumpsprites, self, delay=2, flipx=True)
+        ss = pygame.image.load("data/assets/player/shoot sheet.png").convert_alpha()
+        shootsprites = []
+        for x in range(36):
+            shootsprites.append(ss.subsurface(((37 * x), 20, 37, spritesize)))
+        shootsprites = shootsprites
+        self.shootLeftAnimation = Animation(shootsprites, self, delay=2)
+        self.shootRightAnimation = Animation(shootsprites, self, delay=2, flipx=True)
+
+        ss = pygame.image.load("data/assets/objects/TX Village Props.png").convert_alpha()
+        self.arrowimg = ss.subsurface(714, 3, 41, 15)
+        self.arrowimgleft = pygame.transform.flip(self.arrowimg, True, False)
     

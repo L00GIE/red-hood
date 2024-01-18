@@ -2,9 +2,10 @@ import pygame
 
 class Collider:
 
-    def __init__(self, parent, stationary=False, point=False, debug=False):
+    def __init__(self, parent, stationary=False, antigrav=False, point=False, debug=False):
         self.parent = parent
         self.stationary = stationary
+        self.antigrav = antigrav
         self.rect = pygame.Rect((self.parent.x, self.parent.y, self.parent.w, self.parent.h))
         self.point = point
         self.debug = debug

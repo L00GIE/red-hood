@@ -50,9 +50,9 @@ class Start(Scene):
         self.add(signtext1)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_1.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_2.png").convert_alpha(), (1366,768))
-        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/background_layer_3.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_1.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_2.png").convert_alpha(), (1366,768))
+        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_3.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
         bg3 = Background(self.core, bgimg3, scrollspeed=4)
@@ -71,5 +71,7 @@ class Start(Scene):
     def applygravity(self):
         for layer in self.layers:
             for obj in layer:
-                if hasattr(obj, "collider") and not obj.collider.stationary:
+                if hasattr(obj, "collider") and not \
+                    obj.collider.stationary and not \
+                    obj.collider.antigrav:
                     obj.y += 8

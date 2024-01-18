@@ -7,9 +7,10 @@ import pygame
 
 class Skeleton(Enemy):
 
-    def __init__(self, core, boss=False):
+    def __init__(self, core, boss=False, transforms=False):
         self.core = core
         self.boss = boss
+        self.transforms = transforms
         self.x = 800
         self.y = 200
         self.w = 160 if boss else 80
@@ -38,7 +39,7 @@ class Skeleton(Enemy):
             return
         elif self.hp <= 0 and self.currentanimation.ended:
             self.core.scene.remove(self)
-            if not self.boss:
+            if not self.boss and self.transforms:
                 boss = Skeleton(self.core, True)
                 boss.x = self.x
                 boss.y = self.y

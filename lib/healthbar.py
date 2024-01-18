@@ -66,15 +66,15 @@ class HealthBar:
             screen.blit(self.halfheart, (xpos + (self.fullheart.get_width()), ypos))
             for x in range(2, 5):
                 screen.blit(self.emptyheart, (xpos + (self.fullheart.get_width() * x), ypos))
-        elif percent < 20 and percent > 10:
+        elif percent < 20 and percent >= 10:
             screen.blit(self.fullheart, (xpos, ypos))
             for x in range(1, 5):
                 screen.blit(self.emptyheart, (xpos + (self.fullheart.get_width() * x), ypos))
-        elif percent < 10 and percent > 0:
+        elif percent < 10 and percent >= 0:
             screen.blit(self.halfheart, (xpos, ypos))
             for x in range(1, 5):
                 screen.blit(self.emptyheart, (xpos + (self.fullheart.get_width() * x), ypos))
-        else:
+        elif percent < 0:
             for x in range(5):
                 screen.blit(self.emptyheart, (xpos + (self.fullheart.get_width() * x), ypos))
 

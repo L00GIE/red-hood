@@ -1,5 +1,5 @@
 from data.assets.enemies.Skeleton.skeleton import Skeleton
-from data.scenes.industrial.industrial import Industrial
+from data.scenes.mountains.mountains import Mountains
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
@@ -31,7 +31,7 @@ class Pit(Scene):
                 if isinstance(obj, Skeleton):
                     numskellys += 1 
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
-            self.core.scene = Industrial(self.core)
+            self.core.scene = Mountains(self.core)
         
     def initGround(self):
         self.initFloorTiles()

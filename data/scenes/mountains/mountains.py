@@ -1,10 +1,11 @@
-from data.assets.enemies.Goblin.goblin import Goblin
+from data.assets.enemies.Flyingeye.flyingeye import FlyingEye
+from data.scenes.church.church import Church
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
-import pygame, random
+import pygame
 
-class Industrial(Scene):
+class Mountains(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -24,13 +25,13 @@ class Industrial(Scene):
         super().loop() # this is where every object in the scene has its loop() called
 
     def checkBounds(self):
-        numeyebats = 0
+        numskellys = 0
         for layer in self.layers:
             for obj in layer:
-                if isinstance(obj, Goblin):
-                    numeyebats += 1 
-        if numeyebats < 1 and self.core.player.x > pygame.display.get_surface().get_width():
-            self.core.scene = Industrial(self.core)
+                if isinstance(obj, FlyingEye):
+                    numskellys += 1 
+        if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
+            self.core.scene = Church(self.core)
         
     def initGround(self):
         self.initFloorTiles()
@@ -44,7 +45,7 @@ class Industrial(Scene):
 
     def initEnemy(self):
         for x in range(1, 3):
-            enemy = Goblin(self.core)
+            enemy = FlyingEye(self.core)
             if x == 2:
                 enemy.transforms = True
                 enemy.x = 500 * x
@@ -52,9 +53,9 @@ class Industrial(Scene):
             self.add(enemy)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/bg.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/buildings.png").convert_alpha(), (1366,768))
-        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/skill-foreground.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/mountains/parallax-mountain-bg.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/mountains/parallax-mountain-mountains.png").convert_alpha(), (1366,768))
+        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/mountains/parallax-mountain-foreground-trees.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
         bg3 = Background(self.core, bgimg3, scrollspeed=4)

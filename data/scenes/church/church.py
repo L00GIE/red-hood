@@ -1,10 +1,11 @@
-from data.assets.enemies.Goblin.goblin import Goblin
+from data.assets.enemies.Skeleton.skeleton import Skeleton
+from data.scenes.industrial.industrial import Industrial
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
 import pygame, random
 
-class Industrial(Scene):
+class Church(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -24,12 +25,12 @@ class Industrial(Scene):
         super().loop() # this is where every object in the scene has its loop() called
 
     def checkBounds(self):
-        numeyebats = 0
+        numskellys = 0
         for layer in self.layers:
             for obj in layer:
-                if isinstance(obj, Goblin):
-                    numeyebats += 1 
-        if numeyebats < 1 and self.core.player.x > pygame.display.get_surface().get_width():
+                if isinstance(obj, Skeleton):
+                    numskellys += 1 
+        if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = Industrial(self.core)
         
     def initGround(self):
@@ -44,7 +45,7 @@ class Industrial(Scene):
 
     def initEnemy(self):
         for x in range(1, 3):
-            enemy = Goblin(self.core)
+            enemy = Skeleton(self.core)
             if x == 2:
                 enemy.transforms = True
                 enemy.x = 500 * x
@@ -52,15 +53,12 @@ class Industrial(Scene):
             self.add(enemy)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/bg.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/buildings.png").convert_alpha(), (1366,768))
-        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/skill-foreground.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/background_0.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/background_1.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
-        bg3 = Background(self.core, bgimg3, scrollspeed=4)
         self.add(bg1, 0)
         self.add(bg2, 1)
-        self.add(bg3, 2)
 
     def initFloorTiles(self):
         ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png").convert_alpha()

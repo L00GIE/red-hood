@@ -4,8 +4,7 @@ from lib.enemy import Enemy
 from lib.healthbar import HealthBar
 import pygame
 
-
-class Skeleton(Enemy):
+class Mushroom(Enemy):
 
     def __init__(self, core, boss=False, transforms=False):
         self.core = core
@@ -18,9 +17,9 @@ class Skeleton(Enemy):
         self.hp = 100 if boss else 15
         self.maxhp = self.hp
         if boss:
-            self.healthbar = HealthBar(self, title="King Skelly", rightside=True)
+            self.healthbar = HealthBar(self, title="Shroomsy", rightside=True)
         self.mass = 10
-        self.speed = 1
+        self.speed = 3
         self.dmg = 1
         self.collider = Collider(self, debug=False)
         self.initAnimations()

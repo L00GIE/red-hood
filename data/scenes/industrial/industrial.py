@@ -43,12 +43,12 @@ class Industrial(Scene):
         pass
 
     def initEnemy(self):
-        for x in range(1, 3):
+        for x in range(1, 6):
             enemy = Goblin(self.core)
             if x == 2:
                 enemy.transforms = True
-                enemy.x = 500 * x
-                enemy.y = 600
+            enemy.x = 400 + (x * 50)
+            enemy.y = 600
             self.add(enemy)
 
     def initBackgrounds(self):

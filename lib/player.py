@@ -3,6 +3,7 @@ from lib.animation import Animation
 from lib.collider import Collider
 from lib.healthbar import HealthBar
 from lib.projectile import Projectile
+from lib.text import Text
 
 class Player:
     def __init__(self, core):
@@ -29,10 +30,20 @@ class Player:
         self.collider = Collider(self, debug=False)
 
     def loop(self):
+        if self.checkDead():
+            return
         self.checkInput()
         self.collider.update()
         self.currentanimation.play()
         self.healthbar.loop()
+
+    def checkDead(self):
+        if self.hp <= 0:
+            text = Text("You didn't make it to grandma's house.", "helvetica", 36, [255, 0, 0])
+            self.core.scene.add(text)
+            return True
+        else:
+            return False
 
     def checkInput(self):
         self.checkAttack()
@@ -179,9 +190,9 @@ class Player:
         self.jumpLeftAnimation = Animation(jumpsprites, self, delay=2, flipx=True)
         ss = pygame.image.load("data/assets/player/shoot sheet.png").convert_alpha()
         shootsprites = []
-        for x in range(36):
-            shootsprites.append(ss.subsurface(((37 * x), 20, 37, spritesize)))
-        shootsprites = shootsprites
+        for x in range(24):
+            shootsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
+        shootsprites = shootsprites[::2]
         self.shootLeftAnimation = Animation(shootsprites, self, delay=2)
         self.shootRightAnimation = Animation(shootsprites, self, delay=2, flipx=True)
 

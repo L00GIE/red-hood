@@ -48,8 +48,8 @@ class Mountains(Scene):
             enemy = FlyingEye(self.core)
             if x == 2:
                 enemy.transforms = True
-                enemy.x = 500 * x
-                enemy.y = 600
+            enemy.x = 500 * x
+            enemy.y = 600
             self.add(enemy)
 
     def initBackgrounds(self):

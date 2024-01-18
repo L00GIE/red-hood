@@ -1,4 +1,4 @@
-from data.assets.enemies.Skeleton.skeleton import Skeleton
+from data.assets.enemies.Mushroom.mushroom import Mushroom
 from data.scenes.industrial.industrial import Industrial
 from lib.background import Background
 from lib.collidable import Collidable
@@ -28,7 +28,7 @@ class Church(Scene):
         numskellys = 0
         for layer in self.layers:
             for obj in layer:
-                if isinstance(obj, Skeleton):
+                if isinstance(obj, Mushroom):
                     numskellys += 1 
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = Industrial(self.core)
@@ -45,11 +45,11 @@ class Church(Scene):
 
     def initEnemy(self):
         for x in range(1, 3):
-            enemy = Skeleton(self.core)
+            enemy = Mushroom(self.core)
             if x == 2:
                 enemy.transforms = True
-                enemy.x = 500 * x
-                enemy.y = 600
+            enemy.x = 500 * x
+            enemy.y = 600
             self.add(enemy)
 
     def initBackgrounds(self):

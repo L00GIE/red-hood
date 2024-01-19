@@ -7,7 +7,7 @@ class Projectile:
         self.parent = parent
         self.image = image
         self.direction = direction
-        self.speed = 10
+        self.speed = 20
         if direction == "e":
             self.x = parent.x + parent.w
         else:

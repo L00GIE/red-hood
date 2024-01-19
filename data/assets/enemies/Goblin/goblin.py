@@ -19,14 +19,13 @@ class Goblin(Enemy):
         if boss:
             self.healthbar = HealthBar(self, title="Boss Gobble", rightside=True)
         self.mass = 10
-        self.speed = 2
-        self.dmg = 1
+        self.speed = 5
+        self.dmg = 2.5
         self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
-        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -48,7 +47,7 @@ class Goblin(Enemy):
                 self.core.scene.add(boss)
             return
         if random.randint(0, 100) == 1:
-            self.sound.play()
+            self.playSound()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -58,13 +57,13 @@ class Goblin(Enemy):
         if self.boss:
             self.healthbar.loop()
 
-    def initSound(self):
+    def playSound(self):
         sounds = [
             "data/assets/sounds/grunts/goblins/goblin-cackle-87566.mp3",
             "data/assets/sounds/grunts/goblins/goblin-death-6729.mp3",
             "data/assets/sounds/grunts/goblins/goblin-scream-87564.mp3"
         ]
-        self.sound = pygame.mixer.Sound(random.choice(sounds))
+        pygame.mixer.Sound(random.choice(sounds)).play()
 
     def checkWalking(self):
         if self.direction == "e":

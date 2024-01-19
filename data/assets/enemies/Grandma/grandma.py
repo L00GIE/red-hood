@@ -17,13 +17,12 @@ class Grandma(Enemy):
         self.healthbar = HealthBar(self, title="Grandma", rightside=True)
         self.mass = 10
         self.speed = 5
-        self.dmg = 2
+        self.dmg = 4
         self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
-        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -37,8 +36,8 @@ class Grandma(Enemy):
         elif self.hp <= 0 and self.currentanimation.ended:
             self.core.scene.remove(self)
             return
-        if random.randint(0, 100) == 1:
-            self.sound.play()
+        if random.randint(0, 200) == 1:
+            self.playSound()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -47,7 +46,7 @@ class Grandma(Enemy):
         self.currentanimation.play()
         self.healthbar.loop()
 
-    def initSound(self):
+    def playSound(self):
         sounds = [
             "data/assets/sounds/grunts/grandma/laugh-1.wav",
             "data/assets/sounds/grunts/grandma/laugh-2.wav",
@@ -56,7 +55,7 @@ class Grandma(Enemy):
             "data/assets/sounds/grunts/grandma/laugh-5.wav",
             "data/assets/sounds/grunts/grandma/laugh-6.wav"
         ]
-        self.sound = pygame.mixer.Sound(random.choice(sounds))
+        pygame.mixer.Sound(random.choice(sounds)).play()
 
     def checkWalking(self):
         if self.direction == "e":

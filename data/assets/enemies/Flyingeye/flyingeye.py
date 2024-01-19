@@ -20,14 +20,12 @@ class FlyingEye(Enemy):
             self.healthbar = HealthBar(self, title="Big Flyball", rightside=True)
         self.mass = 10
         self.speed = 3
-        self.dmg = 1
+        self.dmg = 1.5
         self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
-        self.sound = None
-        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -49,7 +47,7 @@ class FlyingEye(Enemy):
                 self.core.scene.add(boss)
             return
         if random.randint(0, 100) == 1:
-            self.sound.play()
+            self.playSound()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -59,13 +57,13 @@ class FlyingEye(Enemy):
         if self.boss:
             self.healthbar.loop()
 
-    def initSound(self):
+    def playSound(self):
         sounds = [
             "data/assets/sounds/grunts/flyingeyes/dragon-roar-96996.mp3",
             "data/assets/sounds/grunts/flyingeyes/monster-howl-85304.mp3",
             "data/assets/sounds/grunts/flyingeyes/angry-beast-6172.mp3"
         ]
-        self.sound = pygame.mixer.Sound(random.choice(sounds))
+        pygame.mixer.Sound(random.choice(sounds)).play()
 
     def checkWalking(self):
         if self.direction == "e":

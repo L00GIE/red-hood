@@ -19,15 +19,13 @@ class Mushroom(Enemy):
         if boss:
             self.healthbar = HealthBar(self, title="Shroomsy", rightside=True)
         self.mass = 10
-        self.speed = 3
-        self.dmg = 1
+        self.speed = 4
+        self.dmg = 2
         self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
-        self.sound = None
-        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -49,7 +47,7 @@ class Mushroom(Enemy):
                 self.core.scene.add(boss)
             return
         if random.randint(0, 100) == 1:
-            self.sound.play()
+            self.playSound()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -59,13 +57,13 @@ class Mushroom(Enemy):
         if self.boss:
             self.healthbar.loop()
 
-    def initSound(self):
+    def playSound(self):
         sounds = [
             "data/assets/sounds/grunts/mushrooms/attack-cannibal-beast-95140.mp3",
             "data/assets/sounds/grunts/mushrooms/monster-screech-94983.mp3",
             "data/assets/sounds/grunts/mushrooms/pterodactyl-85046.mp3"
         ]
-        self.sound = pygame.mixer.Sound(random.choice(sounds))
+        pygame.mixer.Sound(random.choice(sounds)).play()
 
     def checkWalking(self):
         if self.direction == "e":

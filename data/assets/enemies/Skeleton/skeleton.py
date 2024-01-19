@@ -27,8 +27,6 @@ class Skeleton(Enemy):
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
-        self.sound = None
-        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -50,7 +48,7 @@ class Skeleton(Enemy):
                 self.core.scene.add(boss)
             return
         if random.randint(0, 100) == 1:
-            self.sound.play()
+            self.playSound()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -60,14 +58,13 @@ class Skeleton(Enemy):
         if self.boss:
             self.healthbar.loop()
 
-    def initSound(self):
+    def playSound(self):
         grunts = [
             "data/assets/sounds/grunts/skeletons/skeleton_1.mp3",
             "data/assets/sounds/grunts/skeletons/skeleton_2.mp3",
             "data/assets/sounds/grunts/skeletons/skeleton_3.mp3"
         ]
-        if self.sound is None:
-            self.sound = pygame.mixer.Sound(random.choice(grunts))
+        pygame.mixer.Sound(random.choice(grunts)).play()
 
     def checkWalking(self):
         if self.direction == "e":

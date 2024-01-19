@@ -23,6 +23,7 @@ class Player:
         self.collider = Collider(self, debug=False)
         self.makingsound = False
         self.runningsound = pygame.mixer.Sound("data/assets/sounds/movement/player/running-in-grass.mp3")
+        self.bowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-loading.mp3")
 
     def loop(self):
         if self.checkDead():
@@ -85,8 +86,7 @@ class Player:
             self.doShoot()
 
     def doShoot(self):
-        bowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-loading.mp3")
-        bowsound.play()
+        self.bowsound.play()
         if self.direction == "e":
             self.currentanimation = self.shootRightAnimation
         elif self.direction == "w":
@@ -160,6 +160,7 @@ class Player:
             self.jumping = False
             
     def move(self, direction):
+        self.bowsound.stop()
         if not self.jumping and not self.makingsound:
             self.runningsound.play(loops=-1)
             self.makingsound = True

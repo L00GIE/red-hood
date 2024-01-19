@@ -19,8 +19,12 @@ class Dawn(Scene):
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
         self.add(HealthDrop(self.core, (600, 0)))
+        self.fadingout = False
 
     def loop(self):
+        if not self.fadingout:
+            pygame.mixer.fadeout(5000)
+            self.fadingout = True
         self.checkBounds()
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene

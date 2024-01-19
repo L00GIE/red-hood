@@ -2,6 +2,7 @@ from data.assets.enemies.Flyingeye.flyingeye import FlyingEye
 from data.scenes.grandmashouse.grandmas import Grandmas
 from lib.background import Background
 from lib.collidable import Collidable
+from lib.healthdrop import HealthDrop
 from lib.scene import Scene
 import pygame
 
@@ -17,6 +18,7 @@ class Dawn(Scene):
         self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
+        self.add(HealthDrop(self.core, (600, 0)))
 
     def loop(self):
         self.checkBounds()

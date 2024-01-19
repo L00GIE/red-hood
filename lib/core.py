@@ -1,4 +1,3 @@
-from data.scenes.grandmashouse.grandmas import Grandmas
 from data.scenes.start.start import Start
 from lib.camera import Camera
 from lib.cursor import Cursor

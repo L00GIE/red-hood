@@ -1,3 +1,4 @@
+from data.assets.enemies.Grandma.grandma import Grandma
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
@@ -12,9 +13,11 @@ class Grandmas(Scene):
         self.initBackgrounds()
         self.initGround()
         self.initObjects()
+        self.core.player.x = 100
         self.add(self.core.player) # add player to foremost layer
         pygame.mixer.music.load("data/assets/sounds/music/creepy.mp3")
         pygame.mixer.music.play(loops=-1)
+        self.add(Grandma(self.core))
 
     def loop(self):
         pygame.display.get_surface().fill([255, 255, 255])

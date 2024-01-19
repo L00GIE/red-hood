@@ -90,7 +90,7 @@ class Goblin(Enemy):
             self.currentanimation = self.hitLeftAnimation
 
     def initAnimations(self):
-        ss = pygame.image.load("data/assets/enemies/Goblin/Run.png")
+        ss = pygame.image.load("data/assets/enemies/Goblin/Run.png").convert_alpha()
         walksprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -99,7 +99,7 @@ class Goblin(Enemy):
         ]
         self.walkRightAnimation = Animation(walksprites, self)
         self.walkLeftAnimation = Animation(walksprites, self, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Goblin/Attack.png")
+        ss = pygame.image.load("data/assets/enemies/Goblin/Attack.png").convert_alpha()
         atksprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -108,7 +108,7 @@ class Goblin(Enemy):
         ]
         self.attackRightAnimation = Animation(atksprites, self, delay=10)
         self.attackLeftAnimation = Animation(atksprites, self, delay=10, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Goblin/Death.png")
+        ss = pygame.image.load("data/assets/enemies/Goblin/Death.png").convert_alpha()
         diesprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -117,7 +117,7 @@ class Goblin(Enemy):
         ]
         self.dieRightAnimation = Animation(diesprites, self, delay=10)
         self.dieLeftAnimation = Animation(diesprites, self, delay=10, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Goblin/Take Hit.png")
+        ss = pygame.image.load("data/assets/enemies/Goblin/Take Hit.png").convert_alpha()
         hitsprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),

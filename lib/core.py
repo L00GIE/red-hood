@@ -1,4 +1,3 @@
-from data.scenes.industrial.industrial import Industrial
 from data.scenes.start.start import Start
 from lib.camera import Camera
 from lib.cursor import Cursor
@@ -8,7 +7,7 @@ class Core:
 
     def __init__(self):
         self.player = Player(self) # initialize player
-        self.scene = Industrial(self) # initialize start scene
+        self.scene = Start(self) # initialize start scene
         # self.cursor = Cursor(self)
         self.camera = Camera(self)
 

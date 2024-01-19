@@ -8,8 +8,8 @@ class Text:
         self.surf = self.font.render(text, antialias=True, color=self.color)
         if pos is None:
             screen = pygame.display.get_surface()
-            self.x = (screen.get_width() / 2) - (surf.get_width() / 2)
-            self.y = (screen.get_height() / 2) - (surf.get_height() / 2)
+            self.x = (screen.get_width() / 2) - (self.surf.get_width() / 2)
+            self.y = (screen.get_height() / 2) - (self.surf.get_height() / 2)
         else:
             self.x = pos[0]
             self.y = pos[1]

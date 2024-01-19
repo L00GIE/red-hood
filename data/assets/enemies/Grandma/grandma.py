@@ -36,7 +36,7 @@ class Grandma(Enemy):
         elif self.hp <= 0 and self.currentanimation.ended:
             self.core.scene.remove(self)
             return
-        if random.randint(0, 200) == 1:
+        if random.randint(0, 400) == 1:
             self.playSound()
         super().moveToPlayer()
         self.checkWalking()

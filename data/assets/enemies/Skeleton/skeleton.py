@@ -47,7 +47,7 @@ class Skeleton(Enemy):
                 boss.y = self.y
                 self.core.scene.add(boss)
             return
-        if random.randint(0, 100) == 1:
+        if random.randint(0, 300) == 1:
             self.playSound()
         super().moveToPlayer()
         self.checkWalking()

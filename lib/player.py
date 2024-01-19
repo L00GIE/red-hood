@@ -45,7 +45,6 @@ class Player:
 
     def checkInput(self):
         self.checkAttack()
-        if self.attacking: return
         self.checkJump()
         self.checkMove()
 
@@ -63,7 +62,8 @@ class Player:
             self.move("e")
         if keys[pygame.K_a]:
             self.move("w")
-        if not keys[pygame.K_d] and not keys[pygame.K_a] and not self.jumping and not self.shooting:
+        if not keys[pygame.K_d] and not keys[pygame.K_a] and not \
+            self.jumping and not self.shooting and not self.attacking:
             if self.direction == "e":
                 self.currentanimation = self.idleRightAnimation
             elif self.direction == "w":
@@ -166,11 +166,11 @@ class Player:
             self.makingsound = True
         if direction == "e":
             self.x += self.speed
-            if not self.jumping:
+            if not self.jumping and not self.attacking:
                 self.currentanimation = self.runRightAnimation
         else:
             self.x -= self.speed
-            if not self.jumping:
+            if not self.jumping and not self.attacking:
                 self.currentanimation = self.runLeftAnimation
         self.direction = direction
 

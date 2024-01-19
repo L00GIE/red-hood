@@ -16,6 +16,8 @@ class Industrial(Scene):
         self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
+        pygame.mixer.music.load("data/assets/sounds/music/born-with-it.mp3")
+        pygame.mixer.music.play(loops=-1)
 
     def loop(self):
         self.checkBounds()

@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from lib.animation import Animation
 from lib.collider import Collider
 from lib.healthbar import HealthBar
@@ -27,6 +27,7 @@ class Player:
         self.attacking = False
         self.shooting = False
         self.jumping = False
+        self.died = False
         self.collider = Collider(self, debug=False)
 
     def loop(self):
@@ -38,9 +39,11 @@ class Player:
         self.healthbar.loop()
 
     def checkDead(self):
-        if self.hp <= 0:
+        if self.hp <= 0 and not self.died:
             text = Text("You didn't make it to grandma's house.", "helvetica", 36, [255, 0, 0])
             self.core.scene.add(text)
+            self.core.scene.remove(self)
+            self.died = True
             return True
         else:
             return False
@@ -85,6 +88,8 @@ class Player:
             self.doShoot()
 
     def doShoot(self):
+        bowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-loading.mp3")
+        bowsound.play()
         if self.direction == "e":
             self.currentanimation = self.shootRightAnimation
         elif self.direction == "w":
@@ -124,6 +129,14 @@ class Player:
             self.attacking = False
 
     def attack(self):
+        grunts = [
+            "data/assets/sounds/grunts/player/grunting.wav", 
+            "data/assets/sounds/grunts/player/grunting_2.wav", 
+            "data/assets/sounds/grunts/player/grunting_3.wav",
+            "data/assets/sounds/grunts/player/grunting_4.wav"
+        ]
+        grunt = pygame.mixer.Sound(random.choice(grunts))
+        grunt.play()
         if self.direction == "e":
             self.currentanimation = self.atkRightAnimation
         elif self.direction == "w":

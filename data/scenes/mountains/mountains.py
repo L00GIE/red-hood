@@ -44,11 +44,11 @@ class Mountains(Scene):
         pass
 
     def initEnemy(self):
-        for x in range(1, 3):
+        for x in range(1, 4):
             enemy = FlyingEye(self.core)
-            if x == 2:
+            if x == 3:
                 enemy.transforms = True
-            enemy.x = 500 * x
+            enemy.x = 500 + (50 * x)
             enemy.y = 600
             self.add(enemy)
 

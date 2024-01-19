@@ -2,7 +2,7 @@ from lib.animation import Animation
 from lib.collider import Collider
 from lib.enemy import Enemy
 from lib.healthbar import HealthBar
-import pygame
+import pygame, random
 
 
 class Skeleton(Enemy):
@@ -27,6 +27,7 @@ class Skeleton(Enemy):
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
+        self.sound = None
 
     def loop(self):
         if self.hp <= 0:
@@ -45,6 +46,7 @@ class Skeleton(Enemy):
                 boss.y = self.y
                 self.core.scene.add(boss)
             return
+        self.makeNoise()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -53,6 +55,17 @@ class Skeleton(Enemy):
         self.currentanimation.play()
         if self.boss:
             self.healthbar.loop()
+
+    def makeNoise(self):
+        grunts = [
+            "data/assets/sounds/grunts/skeletons/skeleton_1.mp3",
+            "data/assets/sounds/grunts/skeletons/skeleton_2.mp3",
+            "data/assets/sounds/grunts/skeletons/skeleton_3.mp3"
+        ]
+        if self.sound is None:
+            self.sound = pygame.mixer.Sound(random.choice(grunts))
+        if random.randint(0, 100) == 1:
+            self.sound.play()
 
     def checkWalking(self):
         if self.direction == "e":

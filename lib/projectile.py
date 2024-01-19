@@ -17,11 +17,16 @@ class Projectile:
         self.h = 10
         self.mass = 0.5
         self.collider = Collider(self, antigrav=True)
+        self.madesound = False
 
     def loop(self):
         self.checkbounds()
         self.moveandblit()
         self.checkcollision()
+        if not self.madesound:
+            arrowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-release.mp3")
+            arrowsound.play()
+            self.madesound = True
 
     def checkcollision(self):
         for layer in self.parent.core.scene.layers:

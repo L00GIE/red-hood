@@ -3,10 +3,13 @@ sys.dont_write_bytecode = True
 
 import pygame
 from lib.core import Core
+from pygame import mixer 
 
 windowed = True
 
 pygame.init()
+mixer.init()
+
 if windowed:
     screen = pygame.display.set_mode((1366, 768), pygame.HWSURFACE)
 else:

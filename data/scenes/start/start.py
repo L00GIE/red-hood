@@ -16,6 +16,8 @@ class Start(Scene):
         self.initGround()
         self.initObjects()
         self.add(self.core.player) # add player to foremost layer
+        pygame.mixer.music.load("data/assets/sounds/music/dance-with-fate.mp3")
+        pygame.mixer.music.play(loops=-1)
 
     def loop(self):
         if self.core.player.x > pygame.display.get_surface().get_width():

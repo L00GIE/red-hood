@@ -18,7 +18,7 @@
 
 <h6>Launching on Mac / Linux</h6>
 <ol>
-  <li>Install pygame-ce <a href="https://docs.python.org/3/installing/index.html">via pip</a></li>
+  <li>Install pygame-ce <a href="https://docs.python.org/3/installing/index.html" target="_blank">via pip</a></li>
   <li>Clone or download (and unzip) repository</li>
   <li>cd to game directory (with main.py)</li>
   <li>run: python3 main.py</li>

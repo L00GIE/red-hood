@@ -1,11 +1,10 @@
 from data.assets.enemies.Goblin.goblin import Goblin
-from data.scenes.city.city import City
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
 import pygame, random
 
-class Industrial(Scene):
+class City(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -17,8 +16,6 @@ class Industrial(Scene):
         self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
-        pygame.mixer.music.load("data/assets/sounds/music/born-with-it.mp3")
-        pygame.mixer.music.play(loops=-1)
 
     def loop(self):
         self.checkBounds()
@@ -46,16 +43,18 @@ class Industrial(Scene):
         pass
 
     def initEnemy(self):
-        for x in range(1, 6):
+        for x in range(1, 3):
             enemy = Goblin(self.core)
+            if x == 2:
+                enemy.transforms = True
             enemy.x = 400 + (x * 50)
             enemy.y = 600
             self.add(enemy)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/bg.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/buildings.png").convert_alpha(), (1366,768))
-        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/skill-foreground.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/city/far-buildings.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/city/back-buildings.png").convert_alpha(), (1366,768))
+        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/city/foreground.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
         bg3 = Background(self.core, bgimg3, scrollspeed=4)

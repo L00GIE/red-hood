@@ -1,3 +1,4 @@
+from data.scenes.city.city import City
 from data.scenes.industrial.industrial import Industrial
 from data.scenes.start.start import Start
 from data.scenes.pit.pit import Pit

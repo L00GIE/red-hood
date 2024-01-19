@@ -1,7 +1,7 @@
 from lib.animation import Animation
 from lib.collider import Collider
 from lib.enemy import Enemy
-import pygame
+import pygame, random
 
 from lib.healthbar import HealthBar
 
@@ -26,6 +26,8 @@ class FlyingEye(Enemy):
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
+        self.sound = None
+        self.initSound()
 
     def loop(self):
         if self.hp <= 0:
@@ -39,11 +41,15 @@ class FlyingEye(Enemy):
         elif self.hp <= 0 and self.currentanimation.ended:
             self.core.scene.remove(self)
             if not self.boss and self.transforms:
+                bossmusic = pygame.mixer.Sound("data/assets/sounds/music/boss.mp3")
+                bossmusic.play()
                 boss = FlyingEye(self.core, True)
                 boss.x = self.x
                 boss.y = self.y
                 self.core.scene.add(boss)
             return
+        if random.randint(0, 100) == 1:
+            self.sound.play()
         super().moveToPlayer()
         self.checkWalking()
         if self.collider.colliding(self.core.player):
@@ -52,6 +58,14 @@ class FlyingEye(Enemy):
         self.currentanimation.play()
         if self.boss:
             self.healthbar.loop()
+
+    def initSound(self):
+        sounds = [
+            "data/assets/sounds/grunts/flyingeyes/dragon-roar-96996.mp3",
+            "data/assets/sounds/grunts/flyingeyes/monster-howl-85304.mp3",
+            "data/assets/sounds/grunts/flyingeyes/angry-beast-6172.mp3"
+        ]
+        self.sound = pygame.mixer.Sound(random.choice(sounds))
 
     def checkWalking(self):
         if self.direction == "e":

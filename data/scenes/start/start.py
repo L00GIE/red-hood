@@ -30,7 +30,7 @@ class Start(Scene):
         self.initFloorTiles()
         wall = Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False)
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))
-        for x in range(10):
+        for x in range(25):
             self.add(Collidable(self.core, 128 * x, 700, 128, 128, stationary=True, image=self.floortiles[1]))
         self.add(Collidable(self.core, (128*x) + 32, 700, 128, 128, stationary=True, image=self.floortiles[2]))
         self.add(wall)

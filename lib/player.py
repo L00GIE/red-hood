@@ -8,27 +8,21 @@ from lib.text import Text
 class Player:
     def __init__(self, core):
         self.core = core
-        self.w = 64
-        self.h = 64
-        self.x = 200
-        self.y = 200
-        self.mass = 10
+        self.w, self.h = 64, 64
+        self.x, self.y = 200, 200
         self.maxy = 0
-        self.speed = 3
-        self.minspeed = 3
-        self.maxspeed = 6
+        self.mass = 10
+        self.speed, self.minspeed, self.maxspeed = 3, 3, 6
         self.dmg = 2
-        self.hp = 100
-        self.maxhp = 100
+        self.hp, self.maxhp = 100, 100
         self.healthbar = HealthBar(self)
         self.initAnimations()
         self.currentanimation = self.idleRightAnimation
         self.direction = "e"
-        self.attacking = False
-        self.shooting = False
-        self.jumping = False
-        self.died = False
+        self.attacking, self.shooting, self.jumping, self.died = False, False, False, False
         self.collider = Collider(self, debug=False)
+        self.makingsound = False
+        self.runningsound = pygame.mixer.Sound("data/assets/sounds/movement/player/running-in-grass.mp3")
 
     def loop(self):
         if self.checkDead():
@@ -73,6 +67,9 @@ class Player:
                 self.currentanimation = self.idleRightAnimation
             elif self.direction == "w":
                 self.currentanimation = self.idleLeftAnimation
+            self.runningsound.stop()
+            self.makingsound = False
+            
 
     def checkAttack(self):
         for event in self.core.events:
@@ -152,6 +149,8 @@ class Player:
                     elif self.direction == "w":
                         self.currentanimation = self.jumpLeftAnimation
                     self.jumping = True
+                    jumpsound = pygame.mixer.Sound("data/assets/sounds/grunts/player/grunting_4.wav")
+                    jumpsound.play()
         if self.jumping and not self.currentanimation.ended:
             if self.currentanimation.currentframe < len(self.currentanimation.sprites) / 2:
                 self.y -= 12
@@ -161,6 +160,9 @@ class Player:
             self.jumping = False
             
     def move(self, direction):
+        if not self.jumping and not self.makingsound:
+            self.runningsound.play(loops=-1)
+            self.makingsound = True
         if direction == "e":
             self.x += self.speed
             if not self.jumping:

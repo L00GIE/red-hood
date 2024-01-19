@@ -28,8 +28,8 @@ class Collidable:
                     elif obj.collider.rect.center >= self.collider.rect.center: # object coming from right
                         obj.x = self.collider.rect.right
                         if obj.mass > self.mass and not self.collider.stationary:
-                            self.x -= self.core.player.speed / 2
+                            self.x -= self.core.player.speed
                     elif obj.collider.rect.center <= self.collider.rect.center:  # object coming from left
                         obj.x = self.collider.rect.left - obj.w
                         if obj.mass > self.mass and not self.collider.stationary:
-                            self.x += self.core.player.speed / 2
+                            self.x += self.core.player.speed

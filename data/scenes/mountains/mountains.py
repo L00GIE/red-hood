@@ -37,7 +37,7 @@ class Mountains(Scene):
         self.initFloorTiles()
         self.add(Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False))
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))
-        for x in range(13):
+        for x in range(25):
             self.add(Collidable(self.core, 128 * x, 700, 128, 128, stationary=True, image=self.floortiles[1]))
 
     def initObjects(self):

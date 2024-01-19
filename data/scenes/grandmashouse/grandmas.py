@@ -1,11 +1,10 @@
-from data.assets.enemies.Skeleton.skeleton import Skeleton
-from data.scenes.glacialmountains.glacialmountains import GlacialMountains
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
-import pygame, random
+from lib.staticimg import StaticImage
+import pygame
 
-class Pit(Scene):
+class Grandmas(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -13,44 +12,32 @@ class Pit(Scene):
         self.initBackgrounds()
         self.initGround()
         self.initObjects()
-        self.core.player.x = 100
-        self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
-        self.initEnemy()
+        pygame.mixer.music.load("data/assets/sounds/music/creepy.mp3")
+        pygame.mixer.music.play(loops=-1)
 
     def loop(self):
-        self.checkBounds()
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
         super().loop() # this is where every object in the scene has its loop() called
-
-    def checkBounds(self):
-        numskellys = 0
-        for layer in self.layers:
-            for obj in layer:
-                if isinstance(obj, Skeleton):
-                    numskellys += 1 
-        if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
-            self.core.scene = GlacialMountains(self.core)
         
     def initGround(self):
         self.initFloorTiles()
-        self.add(Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False))
+        wall = Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False)
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))
         for x in range(25):
             self.add(Collidable(self.core, 128 * x, 700, 128, 128, stationary=True, image=self.floortiles[1]))
+        self.add(Collidable(self.core, (128*x) + 32, 700, 128, 128, stationary=True, image=self.floortiles[2]))
+        self.add(wall)
 
     def initObjects(self):
-        pass
-
-    def initEnemy(self):
-        for x in range(1, 3):
-            enemy = Skeleton(self.core)
-            if x == 2:
-                enemy.transforms = True
-            enemy.x = 500 + (x * 50)
-            enemy.y = 600
-            self.add(enemy)
+        ss = pygame.image.load("data/assets/objects/TX Village Props.png").convert_alpha()
+        signimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/donotentersign.png").convert_alpha(), 0.8)
+        scaffoldimg = pygame.transform.scale(ss.subsurface((187, 162, 72, 64)), (216, 192))
+        scaffold = StaticImage(scaffoldimg, (800, 520))
+        signtext = StaticImage(signimg, (scaffold.x + 50, scaffold.y + 20))
+        self.add(scaffold)
+        self.add(signtext)
 
     def initBackgrounds(self):
         bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_1.png").convert(), (1366,768))
@@ -68,13 +55,7 @@ class Pit(Scene):
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 64, 32, 32)), (128, 128))
+            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128))
         ]
 
     def applygravity(self):

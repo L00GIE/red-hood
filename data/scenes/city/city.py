@@ -1,4 +1,5 @@
 from data.assets.enemies.Goblin.goblin import Goblin
+from data.scenes.dawn.dawn import Dawn
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
@@ -30,13 +31,13 @@ class City(Scene):
                 if isinstance(obj, Goblin):
                     numeyebats += 1 
         if numeyebats < 1 and self.core.player.x > pygame.display.get_surface().get_width():
-            self.core.scene = City(self.core)
+            self.core.scene = Dawn(self.core)
         
     def initGround(self):
         self.initFloorTiles()
         self.add(Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False))
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))
-        for x in range(13):
+        for x in range(25):
             self.add(Collidable(self.core, 128 * x, 700, 128, 128, stationary=True, image=self.floortiles[1]))
 
     def initObjects(self):

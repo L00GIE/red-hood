@@ -6,11 +6,12 @@ class Particle:
         self.image = image
         self.x = pos[0]
         self.y = pos[1]
+        self.speed = 1
 
     def loop(self):
         screen = pygame.display.get_surface()
         screen.blit(self.image, (self.x, self.y))
-        self.y += 2
+        self.y += self.speed
         self.x += random.randint(-2, 2)
         if self.y > screen.get_height():
             self.core.scene.remove(self)
@@ -33,4 +34,10 @@ class Particles:
                 numparticles += 1
         if numparticles < 100 and random.randint(0, 10) == 1:
             screen = pygame.display.get_surface()
-            self.core.scene.add(Particle(self.core, self.image, (random.randint(0, screen.get_width() * 2), 0)))
+            xpos = random.randint(0, screen.get_width() * 2)
+            ypos = random.randint(0, 100)
+            self.core.scene.add(
+                Particle(
+                    self.core, 
+                    self.image, 
+                    (xpos, ypos)))

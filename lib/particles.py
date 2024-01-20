@@ -33,4 +33,4 @@ class Particles:
                 numparticles += 1
         if numparticles < 100 and random.randint(0, 10) == 1:
             screen = pygame.display.get_surface()
-            self.core.scene.add(Particle(self.core, self.image, (random.randint(0, screen.get_width()), 0)))
+            self.core.scene.add(Particle(self.core, self.image, (random.randint(0, screen.get_width() * 2), 0)))

@@ -29,7 +29,7 @@ while running:
     if running:
         core.loop(events)
         clock.tick(60)
-        pygame.display.update()
+        pygame.display.flip()
         pygame.display.set_caption(f"Red Hood | {round(clock.get_fps(), 2)} FPS | x: {round(core.player.x)} y: {round(core.player.y)}")
 
 pygame.quit()

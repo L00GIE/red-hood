@@ -17,6 +17,7 @@ class Start(Scene):
         self.initObjects()
         self.add(self.core.player) # add player to foremost layer
         pygame.mixer.music.load("data/assets/sounds/music/dance-with-fate.mp3")
+        pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(loops=-1)
 
     def loop(self):

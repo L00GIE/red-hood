@@ -16,3 +16,8 @@ class Core:
         self.scene.loop()
         self.camera.loop()
         # self.cursor.loop()
+
+    def restart(self):
+        self.player = Player(self)
+        self.scene = Start(self)
+        self.Camera = Camera(self)

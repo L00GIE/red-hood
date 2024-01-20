@@ -86,7 +86,6 @@ class Player:
             self.doShoot()
 
     def doShoot(self):
-        self.bowsound.play()
         if self.direction == "e":
             self.currentanimation = self.shootRightAnimation
         elif self.direction == "w":
@@ -106,6 +105,7 @@ class Player:
         elif self.direction == "w":
             self.currentanimation = self.shootLeftAnimation
         self.shooting = True
+        self.bowsound.play()
 
     def dodamage(self):
         for obj in self.core.scene.layers[4]:
@@ -173,6 +173,15 @@ class Player:
             if not self.jumping and not self.attacking:
                 self.currentanimation = self.runLeftAnimation
         self.direction = direction
+
+    def takehit(self, damage):
+        self.hp -= damage
+        hurtsounds = [
+            "data/assets/sounds/grunts/player/hurt/damage_1.wav",
+            "data/assets/sounds/grunts/player/hurt/damage_2.wav",
+            "data/assets/sounds/grunts/player/hurt/damage_3.wav"
+        ]
+        pygame.mixer.Sound(random.choice(hurtsounds)).play()
 
     def initAnimations(self):
         spritesize = 40

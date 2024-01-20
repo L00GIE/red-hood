@@ -49,9 +49,9 @@ class Goblin(Enemy):
         if random.randint(0, 300) == 1:
             self.playSound()
         super().moveToPlayer()
-        self.checkWalking()
+        super().checkWalking()
         if self.collider.colliding(self.core.player):
-            self.attack()
+            super().attack()
         self.collider.update()
         self.currentanimation.play()
         if self.boss:
@@ -64,29 +64,6 @@ class Goblin(Enemy):
             "data/assets/sounds/grunts/goblins/goblin-scream-87564.mp3"
         ]
         pygame.mixer.Sound(random.choice(sounds)).play()
-
-    def checkWalking(self):
-        if self.direction == "e":
-            self.currentanimation = self.walkRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.walkLeftAnimation
-
-    def attack(self):
-        if self.takinghit and not self.currentanimation.ended: return
-        else: self.takinghit = False
-        if self.direction == "e":
-            self.currentanimation = self.attackRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.attackLeftAnimation
-        if self.currentanimation.ended:
-            self.core.player.hp -= self.dmg
-
-    def takehit(self):
-        self.takinghit = True
-        if self.direction == "e":
-            self.currentanimation = self.hitRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.hitLeftAnimation
 
     def initAnimations(self):
         ss = pygame.image.load("data/assets/enemies/Goblin/Run.png").convert_alpha()

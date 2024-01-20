@@ -39,9 +39,9 @@ class Grandma(Enemy):
         if random.randint(0, 400) == 1:
             self.playSound()
         super().moveToPlayer()
-        self.checkWalking()
+        super().checkWalking()
         if self.collider.colliding(self.core.player):
-            self.attack()
+            super().attack()
         self.collider.update()
         self.currentanimation.play()
         self.healthbar.loop()
@@ -56,29 +56,6 @@ class Grandma(Enemy):
             "data/assets/sounds/grunts/grandma/laugh-6.wav"
         ]
         pygame.mixer.Sound(random.choice(sounds)).play()
-
-    def checkWalking(self):
-        if self.direction == "e":
-            self.currentanimation = self.walkRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.walkLeftAnimation
-
-    def attack(self):
-        if self.takinghit and not self.currentanimation.ended: return
-        else: self.takinghit = False
-        if self.direction == "e":
-            self.currentanimation = self.attackRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.attackLeftAnimation
-        if self.currentanimation.ended:
-            self.core.player.hp -= self.dmg
-
-    def takehit(self):
-        self.takinghit = True
-        if self.direction == "e":
-            self.currentanimation = self.hitRightAnimation
-        elif self.direction == "w":
-            self.currentanimation = self.hitLeftAnimation
 
     def initAnimations(self):
         ss = pygame.image.load("data/assets/enemies/Grandma/$Elderly Inn Keeper.png")

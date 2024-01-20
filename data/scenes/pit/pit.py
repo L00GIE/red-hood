@@ -3,6 +3,7 @@ from data.scenes.glacialmountains.glacialmountains import GlacialMountains
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
+from lib.text import Text
 import pygame, random
 
 class Pit(Scene):
@@ -29,7 +30,7 @@ class Pit(Scene):
         for layer in self.layers:
             for obj in layer:
                 if isinstance(obj, Skeleton):
-                    numskellys += 1 
+                    numskellys += 1
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = GlacialMountains(self.core)
         

@@ -15,6 +15,7 @@ class Text:
         self.surf = self.font.render(self.text, antialias=True, color=self.color)
 
     def loop(self):
+        self.surf = self.font.render(self.text, antialias=True, color=self.color)
         if self.x is None and self.y is None:
             screen = pygame.display.get_surface()
             self.x = (screen.get_width() / 2) - (self.surf.get_width() / 2)

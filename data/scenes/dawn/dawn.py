@@ -2,8 +2,11 @@ from data.assets.enemies.Flyingeye.flyingeye import FlyingEye
 from data.scenes.grandmashouse.grandmas import Grandmas
 from lib.background import Background
 from lib.collidable import Collidable
+from lib.damagedrop import DamageDrop
 from lib.healthdrop import HealthDrop
 from lib.scene import Scene
+from lib.staticimg import StaticImage
+from lib.text import Text
 import pygame
 
 class Dawn(Scene):
@@ -18,17 +21,63 @@ class Dawn(Scene):
         self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
-        self.add(HealthDrop(self.core, (600, 0)))
-        self.fadingout = False
+        self.healthdrop = HealthDrop(self.core, (600, 0))
+        self.add(self.healthdrop)
+        self.initText()
+        self.grown = False
+        self.shrunk = True
 
     def loop(self):
-        if not self.fadingout:
-            pygame.mixer.fadeout(5000)
-            self.fadingout = True
         self.checkBounds()
+        self.checkClick()
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
         super().loop() # this is where every object in the scene has its loop() called
+
+    def initText(self):
+        screen = pygame.display.get_surface()
+        exchange = pygame.transform.scale_by(pygame.image.load("data/assets/objects/exchange.png").convert_alpha(), 0.75)
+        imgx = (screen.get_width() / 2) - (exchange.get_width() / 2)
+        imgy = (screen.get_height() / 2) - (exchange.get_height() / 2)
+        text = Text("Wait... You can take this heart, or you can", "helvetica", 36, [255, 255, 255], (0, imgy - 41))
+        text.x = (screen.get_width() / 2) - (text.get_width() / 2)
+        self.exchimg = StaticImage(exchange, (imgx, imgy))
+        text2 = Text("it for more damage... Which will it be?", "helvetica", 36, [255, 255, 255], (0, imgy + exchange.get_height() + 5))
+        text2.x = (screen.get_width() / 2) - (text2.get_width() / 2)
+        self.add(text)
+        self.add(self.exchimg)
+        self.add(text2)
+
+    def checkClick(self):
+        imgrect = pygame.Rect(
+            self.exchimg.x, 
+            self.exchimg.y,
+            self.exchimg.image.get_width(),
+            self.exchimg.image.get_height())
+        if imgrect.collidepoint(pygame.mouse.get_pos()):
+            if not self.grown:
+                self.exchimg.image = pygame.transform.scale_by(self.exchimg.image, 2)
+                self.exchimg.x = (pygame.display.get_surface().get_width() / 2) - (self.exchimg.image.get_width() / 2)
+                self.exchimg.y = (pygame.display.get_surface().get_height() / 2) - (self.exchimg.image.get_height() / 2)
+                self.grown = True
+                self.shrunk = False
+            for event in self.core.events:
+                if event.type == pygame.MOUSEBUTTONDOWN and self.find(self.healthdrop):
+                    if event.button == 1:
+                        self.remove(self.healthdrop)
+                        for obj in self.layers[4]:
+                            if isinstance(obj, Text):
+                                self.remove(obj)
+                        self.remove(self.exchimg)
+                        self.add(DamageDrop(self.core, (600, 0)))
+                        self.add(Text("Interesting choice...", "helvetica", 36, [255, 255, 255]))
+        else:
+            if not self.shrunk:
+                self.exchimg.image = pygame.transform.scale_by(self.exchimg.image, 0.5)
+                self.exchimg.x = (pygame.display.get_surface().get_width() / 2) - (self.exchimg.image.get_width() / 2)
+                self.exchimg.y = (pygame.display.get_surface().get_height() / 2) - (self.exchimg.image.get_height() / 2)
+                self.shrunk = True
+                self.grown = False
 
     def checkBounds(self):
         if self.core.player.x > pygame.display.get_surface().get_width():

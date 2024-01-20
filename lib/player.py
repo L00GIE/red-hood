@@ -14,6 +14,7 @@ class Player:
         self.mass = 10
         self.speed, self.minspeed, self.maxspeed = 3, 3, 6
         self.dmg = 2
+        self.maxdmg = 5
         self.hp, self.maxhp = 100, 100
         self.healthbar = HealthBar(self)
         self.initAnimations()

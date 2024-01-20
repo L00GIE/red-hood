@@ -55,8 +55,8 @@ class Skeleton(Enemy):
             super().attack()
         self.collider.update()
         self.currentanimation.play()
-        if self.boss:
-            self.healthbar.loop()
+        if self.boss and not self.core.scene.find(self.healthbar):
+            self.core.scene.add(self.healthbar, 6)
 
     def playSound(self):
         grunts = [

@@ -61,6 +61,8 @@ class Start(Scene):
         self.add(bg1, 0)
         self.add(bg2, 1)
         self.add(bg3, 2)
+        vignette = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/Vignette.png").convert_alpha(), (1366,768))
+        self.add(Background(self.core, vignette), 5)
 
     def initFloorTiles(self):
         ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png").convert_alpha()

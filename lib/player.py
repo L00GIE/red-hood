@@ -26,12 +26,13 @@ class Player:
         self.bowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-loading.mp3")
 
     def loop(self):
+        if not self.core.scene.find(self.healthbar):
+            self.core.scene.add(self.healthbar, 6)
         if self.checkDead():
             return
         self.checkInput()
         self.collider.update()
         self.currentanimation.play()
-        self.healthbar.loop()
 
     def checkDead(self):
         if self.hp <= 0 and not self.died:

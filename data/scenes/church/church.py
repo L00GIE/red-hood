@@ -59,6 +59,8 @@ class Church(Scene):
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
         self.add(bg1, 0)
         self.add(bg2, 1)
+        vignette = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/Vignette.png").convert_alpha(), (1366,768))
+        self.add(Background(self.core, vignette), 5)
 
     def initFloorTiles(self):
         ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png").convert_alpha()

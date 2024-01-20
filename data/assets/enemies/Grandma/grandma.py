@@ -44,7 +44,8 @@ class Grandma(Enemy):
             super().attack()
         self.collider.update()
         self.currentanimation.play()
-        self.healthbar.loop()
+        if not self.core.scene.find(self.healthbar):
+            self.core.scene.add(self.healthbar, 6)
 
     def playSound(self):
         sounds = [

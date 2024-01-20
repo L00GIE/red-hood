@@ -8,6 +8,7 @@
   <li>Left mouse to melee</li>
   <li>Right mouse to shoot bow</li>
   <li>F11 to toggle fullscreen</li>
+  <li>Esc to pause</li>
 </ul>
 
 <h6>Launching on Windows</h6>

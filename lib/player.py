@@ -25,6 +25,7 @@ class Player:
         self.makingsound = False
         self.runningsound = pygame.mixer.Sound("data/assets/sounds/movement/player/running-in-grass.mp3")
         self.bowsound = pygame.mixer.Sound("data/assets/sounds/arrow/bow-loading.mp3")
+        self.shotarrow = False
 
     def loop(self):
         if not self.core.scene.find(self.healthbar):
@@ -97,11 +98,14 @@ class Player:
                 arrow = Projectile(self, self.direction, self.arrowimg)
             elif self.direction == "w":
                 arrow = Projectile(self, self.direction, self.arrowimgleft)
-            self.core.scene.add(arrow)
+            if not self.shotarrow:
+                self.core.scene.add(arrow)
+                self.shotarrow = True
         if self.currentanimation.ended:
             self.shooting = False
 
     def shootArrow(self):
+        self.shotarrow = False
         if self.direction == "e":
             self.currentanimation = self.shootRightAnimation
         elif self.direction == "w":

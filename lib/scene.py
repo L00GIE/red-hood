@@ -23,3 +23,11 @@ class Scene:
                 if o == obj:
                     return True
         return False
+    
+    def applygravity(self):
+        for layer in self.layers:
+            for obj in layer:
+                if hasattr(obj, "collider") and not \
+                    obj.collider.stationary and not \
+                    obj.collider.antigrav:
+                    obj.y += 8

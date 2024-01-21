@@ -1,3 +1,6 @@
+from lib.hitnumber import HitNumber
+
+
 class Enemy:
 
     def moveToPlayer(self):
@@ -26,7 +29,9 @@ class Enemy:
         if self.currentanimation.ended:
             self.core.player.takehit(self.dmg)
 
-    def takehit(self):
+    def takehit(self, damage):
+        self.hp -= damage
+        self.core.scene.add(HitNumber(self.core, self, damage))
         self.takinghit = True
         if self.direction == "e":
             self.currentanimation = self.hitRightAnimation

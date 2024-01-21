@@ -1,6 +1,6 @@
+from data.scenes.mountains.mountains import Mountains
 from data.scenes.start.start import Start
 from lib.camera import Camera
-from lib.cursor import Cursor
 from lib.particles import Particles
 from lib.text import Text
 from lib.player import Player

@@ -35,7 +35,7 @@ class Projectile:
                     self.collider.colliding(obj):
                     if hasattr(obj, "hp"):
                         if obj == self.parent: continue
-                        obj.hp -= self.parent.dmg
+                        obj.takehit(self.parent.dmg)
                         self.parent.core.scene.remove(self)
 
     def checkbounds(self):

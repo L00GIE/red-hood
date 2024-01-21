@@ -25,9 +25,10 @@ class FlyingEye(Enemy):
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
-        self.takinghit = False
+        self.takinghit, self.diving = False, False
 
     def loop(self):
+        self.soar()
         if self.hp <= 0:
             if self.direction == "e":
                 self.currentanimation = self.dieRightAnimation
@@ -56,6 +57,16 @@ class FlyingEye(Enemy):
         self.currentanimation.play()
         if self.boss and not self.core.scene.find(self.healthbar):
             self.core.scene.add(self.healthbar, 6)
+
+    def soar(self):
+        if not self.diving:
+            self.y -= 10
+            if self.y <= 200:
+                self.diving = True
+        else:
+            self.y += 2
+            if self.y >= 600:
+                self.diving = False
 
     def playSound(self):
         sounds = [

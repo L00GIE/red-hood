@@ -2,6 +2,7 @@ import pygame, random
 from lib.animation import Animation
 from lib.collider import Collider
 from lib.healthbar import HealthBar
+from lib.hitnumber import HitNumber
 from lib.projectile import Projectile
 from lib.text import Text
 
@@ -12,7 +13,7 @@ class Player:
         self.x, self.y = 200, 200
         self.maxy = 0
         self.mass = 10
-        self.speed, self.minspeed, self.maxspeed = 3, 3, 6
+        self.speed, self.minspeed, self.maxspeed = 0, 3, 6
         self.dmg = 2
         self.maxdmg = 5
         self.hp, self.maxhp = 100, 100
@@ -20,7 +21,7 @@ class Player:
         self.initAnimations()
         self.currentanimation = self.idleRightAnimation
         self.direction = "e"
-        self.attacking, self.shooting, self.jumping, self.died = False, False, False, False
+        self.attacking, self.shooting, self.jumping, self.runnning, self.died = False, False, False, False, False
         self.collider = Collider(self, debug=False)
         self.makingsound = False
         self.runningsound = pygame.mixer.Sound("data/assets/sounds/movement/player/running-in-grass.mp3")
@@ -28,6 +29,11 @@ class Player:
         self.shotarrow = False
 
     def loop(self):
+        """pygame.draw.line(
+            pygame.display.get_surface(), 
+            [255, 255, 255], 
+            (self.x + (self.w / 2), self.y + (self.h / 2)), 
+            pygame.mouse.get_pos())"""
         if not self.core.scene.find(self.healthbar):
             self.core.scene.add(self.healthbar, 6)
         if self.checkDead():
@@ -54,10 +60,14 @@ class Player:
     def checkMove(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LSHIFT]:
-            self.speed = self.maxspeed
+            self.running = True
+            self.speed += 0.05
+            if self.speed >= self.maxspeed:
+                self.speed = self.maxspeed
             self.runLeftAnimation.delay = 1
             self.runRightAnimation.delay = 1
         else:
+            self.running = False
             self.speed = self.minspeed
             self.runLeftAnimation.delay = 3
             self.runRightAnimation.delay = 3
@@ -73,7 +83,26 @@ class Player:
                 self.currentanimation = self.idleLeftAnimation
             self.runningsound.stop()
             self.makingsound = False
+            self.speed = 0
             
+    def move(self, direction):
+        if not self.running:
+            self.speed += 0.01
+            if self.speed >= self.minspeed:
+                self.speed = self.minspeed
+        self.bowsound.stop()
+        if not self.jumping and not self.makingsound:
+            self.runningsound.play(loops=-1)
+            self.makingsound = True
+        if direction == "e":
+            self.x += self.speed
+            if not self.jumping and not self.attacking:
+                self.currentanimation = self.runRightAnimation
+        else:
+            self.x -= self.speed
+            if not self.jumping and not self.attacking:
+                self.currentanimation = self.runLeftAnimation
+        self.direction = direction
 
     def checkAttack(self):
         for event in self.core.events:
@@ -94,10 +123,11 @@ class Player:
         elif self.direction == "w":
             self.currentanimation = self.shootLeftAnimation
         if self.currentanimation.currentframe == len(self.currentanimation.sprites) - int(len(self.currentanimation.sprites) / 3):
-            if self.direction == "e":
-                arrow = Projectile(self, self.direction, self.arrowimg)
-            elif self.direction == "w":
+            mousepos = pygame.mouse.get_pos()
+            if mousepos[0] <= self.x:
                 arrow = Projectile(self, self.direction, self.arrowimgleft)
+            elif mousepos[0] > self.x:
+                arrow = Projectile(self, self.direction, self.arrowimg)
             if not self.shotarrow:
                 self.core.scene.add(arrow)
                 self.shotarrow = True
@@ -116,9 +146,8 @@ class Player:
     def dodamage(self):
         for obj in self.core.scene.layers[4]:
             if self.collider.colliding(obj) and hasattr(obj, "hp") and obj != self.core.player:
-                obj.hp -= self.dmg
                 if hasattr(obj, "takehit"):
-                    obj.takehit()
+                    obj.takehit(self.dmg)
 
     def doSwordAttack(self):
         if self.currentanimation.currentframe == int(len(self.currentanimation.sprites) / 3):
@@ -164,23 +193,9 @@ class Player:
             self.jumpRightAnimation.reset()
             self.jumpLeftAnimation.reset()
             self.jumping = False
-            
-    def move(self, direction):
-        self.bowsound.stop()
-        if not self.jumping and not self.makingsound:
-            self.runningsound.play(loops=-1)
-            self.makingsound = True
-        if direction == "e":
-            self.x += self.speed
-            if not self.jumping and not self.attacking:
-                self.currentanimation = self.runRightAnimation
-        else:
-            self.x -= self.speed
-            if not self.jumping and not self.attacking:
-                self.currentanimation = self.runLeftAnimation
-        self.direction = direction
 
     def takehit(self, damage):
+        self.core.scene.add(HitNumber(self.core, self, damage))
         self.hp -= damage
         hurtsounds = [
             "data/assets/sounds/grunts/player/hurt/damage_1.wav",

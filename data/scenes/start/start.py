@@ -72,11 +72,3 @@ class Start(Scene):
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128))
         ]
-
-    def applygravity(self):
-        for layer in self.layers:
-            for obj in layer:
-                if hasattr(obj, "collider") and not \
-                    obj.collider.stationary and not \
-                    obj.collider.antigrav:
-                    obj.y += 8

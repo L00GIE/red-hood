@@ -1,11 +1,11 @@
 from lib.animation import Animation
 from lib.collider import Collider
 from lib.enemy import Enemy
-from lib.healthbar import HealthBar
 import pygame, random
 
-class Mushroom(Enemy):
+from lib.healthbar import HealthBar
 
+class FlyingEye(Enemy):
     def __init__(self, core, boss=False, transforms=False):
         self.core = core
         self.boss = boss
@@ -17,17 +17,18 @@ class Mushroom(Enemy):
         self.hp = 100 if boss else 15
         self.maxhp = self.hp
         if boss:
-            self.healthbar = HealthBar(self, title="Shroomsy", rightside=True)
+            self.healthbar = HealthBar(self, title="Big Flyball", rightside=True)
         self.mass = 10
-        self.speed = 4
-        self.dmg = 2
+        self.speed = 3
+        self.dmg = 1.5
         self.collider = Collider(self, debug=False)
         self.initAnimations()
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
-        self.takinghit = False
+        self.takinghit, self.diving = False, False
 
     def loop(self):
+        self.divebomb()
         if self.hp <= 0:
             if self.direction == "e":
                 self.currentanimation = self.dieRightAnimation
@@ -41,7 +42,7 @@ class Mushroom(Enemy):
             if not self.boss and self.transforms:
                 bossmusic = pygame.mixer.Sound("data/assets/sounds/music/boss.mp3")
                 bossmusic.play()
-                boss = Mushroom(self.core, True)
+                boss = FlyingEye(self.core, True)
                 boss.x = self.x
                 boss.y = self.y
                 self.core.scene.add(boss)
@@ -57,16 +58,26 @@ class Mushroom(Enemy):
         if self.boss and not self.core.scene.find(self.healthbar):
             self.core.scene.add(self.healthbar, 6)
 
+    def divebomb(self):
+        if not self.diving:
+            self.y -= 10
+            if self.y <= 500:
+                self.diving = True
+        else:
+            self.y += 2
+            if self.y >= 600:
+                self.diving = False
+
     def playSound(self):
         sounds = [
-            "data/assets/sounds/grunts/mushrooms/attack-cannibal-beast-95140.mp3",
-            "data/assets/sounds/grunts/mushrooms/monster-screech-94983.mp3",
-            "data/assets/sounds/grunts/mushrooms/pterodactyl-85046.mp3"
+            "data/assets/sounds/grunts/flyingeyes/dragon-roar-96996.mp3",
+            "data/assets/sounds/grunts/flyingeyes/monster-howl-85304.mp3",
+            "data/assets/sounds/grunts/flyingeyes/angry-beast-6172.mp3"
         ]
         pygame.mixer.Sound(random.choice(sounds)).play()
 
     def initAnimations(self):
-        ss = pygame.image.load("data/assets/enemies/Mushroom/Run.png").convert_alpha()
+        ss = pygame.image.load("data/assets/enemies/Flyingeye/Flight.png").convert_alpha()
         walksprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -75,7 +86,7 @@ class Mushroom(Enemy):
         ]
         self.walkRightAnimation = Animation(walksprites, self)
         self.walkLeftAnimation = Animation(walksprites, self, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Mushroom/Attack.png").convert_alpha()
+        ss = pygame.image.load("data/assets/enemies/Flyingeye/Attack.png").convert_alpha()
         atksprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -84,7 +95,7 @@ class Mushroom(Enemy):
         ]
         self.attackRightAnimation = Animation(atksprites, self, delay=10)
         self.attackLeftAnimation = Animation(atksprites, self, delay=10, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Mushroom/Death.png").convert_alpha()
+        ss = pygame.image.load("data/assets/enemies/Flyingeye/Death.png").convert_alpha()
         diesprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),
@@ -93,7 +104,7 @@ class Mushroom(Enemy):
         ]
         self.dieRightAnimation = Animation(diesprites, self, delay=10)
         self.dieLeftAnimation = Animation(diesprites, self, delay=10, flipx=True)
-        ss = pygame.image.load("data/assets/enemies/Mushroom/Take Hit.png").convert_alpha()
+        ss = pygame.image.load("data/assets/enemies/Flyingeye/Take Hit.png").convert_alpha()
         hitsprites = [
             ss.subsurface(57, 48, 50, 55),
             ss.subsurface(206, 48, 50, 55),

@@ -1,5 +1,4 @@
-from data.scenes.mountains.mountains import Mountains
-from data.scenes.start.start import Start
+from lib.scenes.start import Start
 from lib.camera import Camera
 from lib.particles import Particles
 from lib.text import Text

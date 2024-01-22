@@ -1,5 +1,4 @@
-from data.assets.enemies.Flyingeye.flyingeye import FlyingEye
-from data.scenes.grandmashouse.grandmas import Grandmas
+from lib.scenes.grandmas import Grandmas
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.damagedrop import DamageDrop

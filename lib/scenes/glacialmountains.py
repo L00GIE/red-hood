@@ -1,11 +1,11 @@
-from data.assets.enemies.Goblin.goblin import Goblin
-from data.scenes.city.city import City
+from lib.enemies.flyingeye import FlyingEye
+from lib.scenes.mountains import Mountains
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene
-import pygame, random
+import pygame
 
-class Industrial(Scene):
+class GlacialMountains(Scene):
 
     def __init__(self, core):
         self.core = core
@@ -17,8 +17,6 @@ class Industrial(Scene):
         self.core.player.y = -100
         self.add(self.core.player) # add player to foremost layer
         self.initEnemy()
-        pygame.mixer.music.load("data/assets/sounds/music/born-with-it.mp3")
-        pygame.mixer.music.play(loops=-1)
 
     def loop(self):
         self.checkBounds()
@@ -27,13 +25,13 @@ class Industrial(Scene):
         super().loop() # this is where every object in the scene has its loop() called
 
     def checkBounds(self):
-        numeyebats = 0
+        numskellys = 0
         for layer in self.layers:
             for obj in layer:
-                if isinstance(obj, Goblin):
-                    numeyebats += 1 
-        if numeyebats < 1 and self.core.player.x > pygame.display.get_surface().get_width():
-            self.core.scene = City(self.core)
+                if isinstance(obj, FlyingEye):
+                    numskellys += 1 
+        if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
+            self.core.scene = Mountains(self.core)
         
     def initGround(self):
         self.initFloorTiles()
@@ -46,22 +44,25 @@ class Industrial(Scene):
         pass
 
     def initEnemy(self):
-        for x in range(1, 6):
-            enemy = Goblin(self.core)
-            enemy.x = 400 + (x * 50)
+        for x in range(1, 4):
+            enemy = FlyingEye(self.core)
+            enemy.x = 500 + (50 * x)
             enemy.y = 600
             self.add(enemy)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/bg.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/buildings.png").convert_alpha(), (1366,768))
-        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/industrial/skill-foreground.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/glacialmountains/sky.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/glacialmountains/clouds_bg.png").convert_alpha(), (1366,768))
+        bgimg3 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/glacialmountains/glacial_mountains.png").convert_alpha(), (1366,768))
+        bgimg4 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/glacialmountains/clouds_mg_1.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
-        bg2 = Background(self.core, bgimg2, scrollspeed=2)
-        bg3 = Background(self.core, bgimg3, scrollspeed=4)
+        bg2 = Background(self.core, bgimg2, scrollspeed=1)
+        bg3 = Background(self.core, bgimg3, scrollspeed=2)
+        bg4 = Background(self.core, bgimg4, scrollspeed=3)
         self.add(bg1, 0)
         self.add(bg2, 1)
         self.add(bg3, 2)
+        self.add(bg4, 3)
         vignette = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/Vignette.png").convert_alpha(), (1366,768))
         self.add(Background(self.core, vignette), 5)
 

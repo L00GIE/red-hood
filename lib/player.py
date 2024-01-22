@@ -29,11 +29,6 @@ class Player:
         self.shotarrow = False
 
     def loop(self):
-        """pygame.draw.line(
-            pygame.display.get_surface(), 
-            [255, 255, 255], 
-            (self.x + (self.w / 2), self.y + (self.h / 2)), 
-            pygame.mouse.get_pos())"""
         if not self.core.scene.find(self.healthbar):
             self.core.scene.add(self.healthbar, 6)
         if self.checkDead():

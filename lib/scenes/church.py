@@ -1,5 +1,5 @@
-from data.assets.enemies.Mushroom.mushroom import Mushroom
-from data.scenes.industrial.industrial import Industrial
+from lib.enemies.mushroom import Mushroom
+from lib.scenes.industrial import Industrial
 from lib.background import Background
 from lib.collidable import Collidable
 from lib.scene import Scene

@@ -11,6 +11,9 @@ Kadokawa
 GalacticGod
 Mysterious Things
 
+Slipper Sprite:
+pch-vector @ freekpik.com
+
 Backgrounds:
 Ansimuz
 Vnitti

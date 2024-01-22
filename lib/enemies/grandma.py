@@ -2,6 +2,7 @@ from lib.animation import Animation
 from lib.collider import Collider
 from lib.enemy import Enemy
 from lib.healthbar import HealthBar
+from lib.projectile import Projectile
 import pygame, random
 
 class Grandma(Enemy):
@@ -38,6 +39,8 @@ class Grandma(Enemy):
             return
         if random.randint(0, 400) == 1:
             self.playSound()
+        if random.randint(0, 200) == 1:
+            self.throwSlipper()
         super().moveToPlayer()
         super().checkWalking()
         if self.collider.colliding(self.core.player):
@@ -46,6 +49,9 @@ class Grandma(Enemy):
         self.currentanimation.play()
         if not self.core.scene.find(self.healthbar):
             self.core.scene.add(self.healthbar, 6)
+
+    def throwSlipper(self):
+        self.core.scene.add(Slipper(self))
 
     def playSound(self):
         sounds = [
@@ -81,3 +87,41 @@ class Grandma(Enemy):
             hitsprites.append(ss.subsurface(384 + (64 * x), 0, 64, 64))
         self.hitRightAnimation = Animation(hitsprites, self, delay=5, flipx=True)
         self.hitLeftAnimation = Animation(hitsprites, self, delay=5)
+
+
+class Slipper:
+
+    def __init__(self, parent):
+        self.parent = parent
+        self.direction = parent.direction
+        self.x, self.y = parent.x, parent.y + (parent.h / 2)
+        self.speed = 10
+        slipperimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/slipper.png"), 0.2)
+        self.slipperimgs = [slipperimg]
+        for x in range(36):
+            self.slipperimgs.append(pygame.transform.rotate(slipperimg, 10 * x))
+        self.slipperindex = 0
+        self.h = slipperimg.get_height()
+        self.w = slipperimg.get_width()
+        self.mass = 0.1
+        self.collider = Collider(self, antigrav=True)
+        self.angle = 0
+
+    def loop(self):
+        img = self.slipperimgs[self.slipperindex]
+        self.slipperindex += 1
+        if self.slipperindex >= len(self.slipperimgs):
+            self.slipperindex = 0
+        if self.direction == "e":
+            self.x += self.speed
+        elif self.direction == "w":
+            self.x -= self.speed
+        if self.parent.core.player.y > self.y:
+            self.y += 1
+        self.collider.update()
+        if self.collider.colliding(self.parent.core.player):
+            self.parent.core.player.takehit(self.parent.dmg)
+            self.parent.core.scene.remove(self)
+        pygame.display.get_surface().blit(img, (self.x, self.y))
+        
+

@@ -39,7 +39,7 @@ class Player:
 
     def checkDead(self):
         if self.hp <= 0 and not self.died:
-            text = Text("You didn't make it to grandma's house.", "helvetica", 26, [255, 0, 0])
+            text = Text("You didn't make it to grandma's house.", 26, [255, 0, 0])
             self.core.scene.add(text)
             self.core.scene.remove(self)
             self.died = True

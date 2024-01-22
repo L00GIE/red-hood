@@ -19,7 +19,9 @@ class Projectile:
         self.collider = Collider(self, antigrav=True)
         self.madesound = False
 
-    def loop(self):
+    def loop(self, img=None):
+        if img is not None:
+            self.image = img
         self.checkbounds()
         self.moveandblit()
         self.checkcollision()

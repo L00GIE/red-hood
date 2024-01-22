@@ -31,10 +31,14 @@ class Pit(Scene):
             for obj in layer:
                 if isinstance(obj, Skeleton):
                     numskellys += 1
+        if numskellys < 1:
+            self.remove(self.wall)
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = GlacialMountains(self.core)
         
     def initGround(self):
+        self.wall = Collidable(self.core, 2500, 0, 50, 768, stationary=True, debug=False)
+        self.add(self.wall)
         self.initFloorTiles()
         self.add(Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False))
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))

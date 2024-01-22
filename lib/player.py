@@ -39,7 +39,7 @@ class Player:
 
     def checkDead(self):
         if self.hp <= 0 and not self.died:
-            text = Text("You didn't make it to grandma's house.", "helvetica", 36, [255, 0, 0])
+            text = Text("You didn't make it to grandma's house.", "helvetica", 26, [255, 0, 0])
             self.core.scene.add(text)
             self.core.scene.remove(self)
             self.died = True
@@ -119,10 +119,10 @@ class Player:
             self.currentanimation = self.shootLeftAnimation
         if self.currentanimation.currentframe == len(self.currentanimation.sprites) - int(len(self.currentanimation.sprites) / 3):
             mousepos = pygame.mouse.get_pos()
-            if mousepos[0] <= self.x:
-                arrow = Projectile(self, self.direction, self.arrowimgleft)
-            elif mousepos[0] > self.x:
+            if self.direction == "e":
                 arrow = Projectile(self, self.direction, self.arrowimg)
+            elif self.direction == "w":
+                arrow = Projectile(self, self.direction, self.arrowimgleft)
             if not self.shotarrow:
                 self.core.scene.add(arrow)
                 self.shotarrow = True

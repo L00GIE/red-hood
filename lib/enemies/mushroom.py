@@ -2,6 +2,7 @@ from lib.animation import Animation
 from lib.collider import Collider
 from lib.enemy import Enemy
 from lib.healthbar import HealthBar
+from lib.projectile import Projectile
 import pygame, random
 
 class Mushroom(Enemy):
@@ -48,6 +49,8 @@ class Mushroom(Enemy):
             return
         if random.randint(0, 300) == 1:
             self.playSound()
+        if random.randint(0, 100) == 1:
+            self.shootspore()
         super().moveToPlayer()
         super().checkWalking()
         if self.collider.colliding(self.core.player):
@@ -65,8 +68,9 @@ class Mushroom(Enemy):
         ]
         pygame.mixer.Sound(random.choice(sounds)).play()
 
-    def sporeburst():
-        pass
+    def shootspore(self):
+        sporeimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/particle.png").convert_alpha(), 0.3)
+        self.core.scene.add(Projectile(self, self.direction, sporeimg, speed=6))
 
     def initAnimations(self):
         ss = pygame.image.load("data/assets/enemies/Mushroom/Run.png").convert_alpha()

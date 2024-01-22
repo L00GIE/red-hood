@@ -2,9 +2,9 @@ import pygame
 
 class Text:
 
-    def __init__(self, text, font, fontsize, color, pos=None):
+    def __init__(self, text, fontsize, color, pos=None):
         self.text = text
-        self.font = pygame.font.SysFont(font, fontsize)
+        self.font = pygame.font.Font("data/assets/fonts/dogica.ttf", fontsize)
         self.color = color
         if pos is not None:
             self.x = pos[0]

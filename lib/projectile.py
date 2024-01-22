@@ -3,11 +3,11 @@ import pygame
 
 class Projectile:
 
-    def __init__(self, parent, direction, image=None):
+    def __init__(self, parent, direction, image=None, speed=20):
         self.parent = parent
         self.image = image
         self.direction = direction
-        self.speed = 20
+        self.speed = speed
         if direction == "e":
             self.x = parent.x + parent.w
         else:
@@ -34,6 +34,7 @@ class Projectile:
                 if hasattr(obj, "collider") and \
                     self.collider.colliding(obj):
                     if hasattr(obj, "hp"):
+                        if isinstance(obj, type(self.parent)): continue
                         if obj == self.parent: continue
                         obj.takehit(self.parent.dmg)
                         self.parent.core.scene.remove(self)

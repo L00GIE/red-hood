@@ -14,7 +14,7 @@ class Core:
         particleimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/particle.png").convert_alpha(), 0.5)
         self.particles = Particles(self, image=particleimg)
         self.paused = False
-        self.pausetext = Text("Paused", "helvetica", 36, [255, 255, 255])
+        self.pausetext = Text("Paused", 36, [255, 255, 255])
         self.initTimer()
 
     def loop(self, events):
@@ -34,7 +34,7 @@ class Core:
 
     def initTimer(self):
         timery = pygame.display.get_surface().get_height() - 36
-        self.timertext = Text("0.0", "helvetica", 36, [255, 255, 255], (0, timery))
+        self.timertext = Text("0.0", 36, [255, 255, 255], (0, timery))
         self.timer = time.time()
         self.elapsed = 0.0
 

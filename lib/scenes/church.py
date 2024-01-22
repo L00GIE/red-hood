@@ -30,10 +30,14 @@ class Church(Scene):
             for obj in layer:
                 if isinstance(obj, Mushroom):
                     numskellys += 1 
+        if numskellys < 1:
+            self.remove(self.wall)
         if numskellys < 1 and self.core.player.x > pygame.display.get_surface().get_width():
             self.core.scene = Industrial(self.core)
         
     def initGround(self):
+        self.wall = Collidable(self.core, 2500, 0, 50, 768, stationary=True, debug=False)
+        self.add(self.wall)
         self.initFloorTiles()
         self.add(Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False))
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))
@@ -53,8 +57,8 @@ class Church(Scene):
             self.add(enemy)
 
     def initBackgrounds(self):
-        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/background_0.png").convert(), (1366,768))
-        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/background_1.png").convert_alpha(), (1366,768))
+        bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/Background_0.png").convert(), (1366,768))
+        bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/church/Background_1.png").convert_alpha(), (1366,768))
         bg1 = Background(self.core, bgimg1)
         bg2 = Background(self.core, bgimg2, scrollspeed=2)
         self.add(bg1, 0)

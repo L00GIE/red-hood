@@ -20,11 +20,19 @@ class Grandmas(Scene):
         self.add(Grandma(self.core))
 
     def loop(self):
+        numenemies = 0
+        for x in self.layers[4]:
+            if isinstance(x, Grandma):
+                numenemies += 1
+        if numenemies < 1:
+            self.remove(self.wall)
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
         super().loop() # this is where every object in the scene has its loop() called
         
     def initGround(self):
+        self.wall = Collidable(self.core, 2500, 0, 50, 768, stationary=True, debug=False)
+        self.add(self.wall)
         self.initFloorTiles()
         wall = Collidable(self.core, 50, 0, 20, 768, stationary=True, debug=False)
         self.add(Collidable(self.core, 0, 700, 128, 128, stationary=True, image=self.floortiles[0]))

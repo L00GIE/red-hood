@@ -38,10 +38,10 @@ class Dawn(Scene):
         exchange = pygame.transform.scale_by(pygame.image.load("data/assets/objects/exchange.png").convert_alpha(), 0.75)
         imgx = (screen.get_width() / 2) - (exchange.get_width() / 2)
         imgy = (screen.get_height() / 2) - (exchange.get_height() / 2)
-        text = Text("Wait... You can take this heart, or you can", "helvetica", 36, [255, 255, 255], (0, imgy - 41))
+        text = Text("Wait... You can take this heart, or you can", 20, [255, 255, 255], (0, imgy - 41))
         text.x = (screen.get_width() / 2) - (text.get_width() / 2)
         self.exchimg = StaticImage(exchange, (imgx, imgy))
-        text2 = Text("it for more damage... Which will it be?", "helvetica", 36, [255, 255, 255], (0, imgy + exchange.get_height() + 5))
+        text2 = Text("it for more damage... Which will it be?", 20, [255, 255, 255], (0, imgy + exchange.get_height() + 5))
         text2.x = (screen.get_width() / 2) - (text2.get_width() / 2)
         self.add(text)
         self.add(self.exchimg)
@@ -69,7 +69,7 @@ class Dawn(Scene):
                                 self.remove(obj)
                         self.remove(self.exchimg)
                         self.add(DamageDrop(self.core, (600, 0)))
-                        self.add(Text("Interesting choice...", "helvetica", 36, [255, 255, 255]))
+                        self.add(Text("Interesting choice...", 36, [255, 255, 255]))
         else:
             if not self.shrunk:
                 self.exchimg.image = pygame.transform.scale_by(self.exchimg.image, 0.6667)

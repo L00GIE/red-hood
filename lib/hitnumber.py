@@ -5,7 +5,7 @@ class HitNumber:
     def __init__(self, core, parent, value):
         self.core = core
         self.parent = parent
-        font = pygame.font.SysFont("helvetica", 24)
+        font = pygame.font.Font("data/assets/fonts/dogica.ttf", 24)
         if parent == self.core.player:
             color = [255, 0, 0]
         else:

@@ -7,7 +7,7 @@ class HealthBar:
         self.title = title
         self.rightside = rightside
         self.initsprites()
-        self.font = pygame.font.SysFont("Helvetica", 26)
+        self.font = pygame.font.Font("data/assets/fonts/dogica.ttf", 26)
 
     def loop(self):
         self.showHearts()

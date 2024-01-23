@@ -18,7 +18,7 @@ class DamageDrop:
     def checkCollision(self):
         if self.collider.colliding(self.core.player):
             self.core.scene.remove(self)
-            self.core.player.dmg = self.core.player.maxdmg
+            self.core.player.dmg += 1
 
     def initSprite(self):
         sprite = pygame.image.load("data/assets/objects/14 - Twin serrated swords.png").convert_alpha()

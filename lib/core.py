@@ -33,6 +33,8 @@ class Core:
         self.doTimer()
 
     def initTimer(self):
+        if hasattr(self, "timertext"):
+            self.scene.remove(self.timertext)
         timery = pygame.display.get_surface().get_height() - 36
         self.timertext = Text("0.0", 36, [255, 255, 255], (0, timery))
         self.timer = time.time()
@@ -55,3 +57,4 @@ class Core:
         self.player = Player(self)
         self.scene = Start(self)
         self.Camera = Camera(self)
+        self.initTimer()

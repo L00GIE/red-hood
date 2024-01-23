@@ -1,5 +1,8 @@
+import pygame
+from lib.damagedrop import DamageDrop
+from lib.healthdrop import HealthDrop
 from lib.hitnumber import HitNumber
-
+import random
 
 class Enemy:
 
@@ -26,7 +29,7 @@ class Enemy:
             self.currentanimation = self.attackRightAnimation
         elif self.direction == "w":
             self.currentanimation = self.attackLeftAnimation
-        if self.currentanimation.ended:
+        if self.currentanimation.ended and self.core.player.hp > 0:
             self.core.player.takehit(self.dmg)
 
     def takehit(self, damage):
@@ -37,3 +40,18 @@ class Enemy:
             self.currentanimation = self.hitRightAnimation
         elif self.direction == "w":
             self.currentanimation = self.hitLeftAnimation
+
+    def doDrop(self):
+        if random.randint(1, 2) == 1:
+            self.core.scene.add(HealthDrop(self.core, (self.x, self.y - 1000)))
+        else:
+            self.core.scene.add(DamageDrop(self.core, (self.x, self.y - 1000)))
+
+    def checkcollision(self):
+        for obj in self.core.scene.layers[4]:
+            if isinstance(obj, Enemy):
+                if self.collider.colliding(obj):
+                    if self.x > obj.x:
+                        self.x = obj.x + obj.w
+                    elif self.x < obj.x:
+                        obj.x = self.x + self.y

@@ -13,13 +13,15 @@ class Text:
             self.x = None
             self.y = None
         self.surf = self.font.render(self.text, antialias=True, color=self.color)
+        self.w = self.surf.get_width()
+        self.h = self.surf.get_height()
 
     def loop(self):
         self.surf = self.font.render(self.text, antialias=True, color=self.color)
         if self.x is None and self.y is None:
             screen = pygame.display.get_surface()
-            self.x = (screen.get_width() / 2) - (self.surf.get_width() / 2)
-            self.y = (screen.get_height() / 2) - (self.surf.get_height() / 2)
+            self.x = (screen.get_width() / 2) - (self.w / 2)
+            self.y = (screen.get_height() / 2) - (self.h / 2)
         pygame.display.get_surface().blit(self.surf, (self.x, self.y))
 
     def get_height(self):

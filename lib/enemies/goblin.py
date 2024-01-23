@@ -26,6 +26,7 @@ class Goblin(Enemy):
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
+        self.dropped = False
 
     def loop(self):
         if self.hp <= 0:
@@ -33,6 +34,9 @@ class Goblin(Enemy):
                 self.currentanimation = self.dieRightAnimation
             elif self.direction == "w":
                 self.currentanimation = self.dieLeftAnimation
+        if self.hp <= 0 and self.boss and not self.dropped:
+            self.doDrop()
+            self.dropped = True
         if self.hp <= 0 and not self.currentanimation.ended:
             self.currentanimation.play()
             return

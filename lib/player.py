@@ -29,23 +29,34 @@ class Player:
         self.shotarrow = False
 
     def loop(self):
-        if not self.core.scene.find(self.healthbar):
-            self.core.scene.add(self.healthbar, 6)
         if self.checkDead():
             return
+        if not self.core.scene.find(self.healthbar):
+            self.core.scene.add(self.healthbar, 6)
         self.checkInput()
         self.collider.update()
         self.currentanimation.play()
 
     def checkDead(self):
         if self.hp <= 0 and not self.died:
-            text = Text("You didn't make it to grandma's house.", 26, [255, 0, 0])
-            self.core.scene.add(text)
-            self.core.scene.remove(self)
+            self.endtext = Text("You didn't make it to grandma's house.", 26, [255, 0, 0])
+            self.restarttext = Text("Restart?.", 26, [255, 0, 0])
+            self.restarttext.x = (pygame.display.get_surface().get_width() / 2) - (self.restarttext.surf.get_width() / 2)
+            self.restarttext.y = (pygame.display.get_surface().get_height() / 2) - (self.restarttext.surf.get_height() / 2) + 36
+            self.core.scene.add(self.endtext)
+            self.core.scene.add(self.restarttext)
             self.died = True
+        if self.died:
+            textrect = pygame.Rect(self.restarttext.x, self.restarttext.y, self.restarttext.get_width(), self.restarttext.get_height())
+            if textrect.collidepoint(pygame.mouse.get_pos()):
+                self.restarttext.color = [255, 255, 255]
+                for event in self.core.events:
+                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                        self.core.restart()
+            else:
+                self.restarttext.color = [255, 0, 0]
             return True
-        else:
-            return False
+        return False
 
     def checkInput(self):
         self.checkAttack()

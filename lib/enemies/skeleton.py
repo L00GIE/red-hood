@@ -27,13 +27,18 @@ class Skeleton(Enemy):
         self.currentanimation = self.walkLeftAnimation
         self.direction = "e"
         self.takinghit = False
+        self.dropped = False
 
     def loop(self):
+        self.checkcollision()
         if self.hp <= 0:
             if self.direction == "e":
                 self.currentanimation = self.dieRightAnimation
             elif self.direction == "w":
                 self.currentanimation = self.dieLeftAnimation
+        if self.hp <= 0 and self.boss and not self.dropped:
+            self.doDrop()
+            self.dropped = True
         if self.hp <= 0 and not self.currentanimation.ended:
             self.currentanimation.play()
             return
@@ -49,10 +54,10 @@ class Skeleton(Enemy):
             return
         if random.randint(0, 300) == 1:
             self.playSound()
-        super().moveToPlayer()
-        super().checkWalking()
+        self.moveToPlayer()
+        self.checkWalking()
         if self.collider.colliding(self.core.player):
-            super().attack()
+            self.attack()
         self.collider.update()
         self.currentanimation.play()
         if self.boss and not self.core.scene.find(self.healthbar):

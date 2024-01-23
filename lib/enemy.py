@@ -54,4 +54,4 @@ class Enemy:
                     if self.x > obj.x:
                         self.x = obj.x + obj.w
                     elif self.x < obj.x:
-                        obj.x = self.x + self.y
+                        obj.x = self.x + self.w

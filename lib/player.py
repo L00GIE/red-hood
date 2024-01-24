@@ -40,7 +40,7 @@ class Player:
     def checkDead(self):
         if self.hp <= 0 and not self.died:
             self.endtext = Text("You didn't make it to grandma's house.", 26, [255, 0, 0])
-            self.restarttext = Text("Restart?.", 26, [255, 0, 0])
+            self.restarttext = Text("Restart?", 26, [255, 0, 0])
             self.restarttext.x = (pygame.display.get_surface().get_width() / 2) - (self.restarttext.surf.get_width() / 2)
             self.restarttext.y = (pygame.display.get_surface().get_height() / 2) - (self.restarttext.surf.get_height() / 2) + 36
             self.core.scene.add(self.endtext)

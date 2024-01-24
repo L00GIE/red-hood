@@ -75,11 +75,5 @@ class GlacialMountains(Scene):
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 64, 32, 32)), (128, 128))
+            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128))
         ]

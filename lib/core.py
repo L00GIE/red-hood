@@ -13,8 +13,9 @@ class Core:
         self.camera = Camera(self)
         particleimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/particle.png").convert_alpha(), 0.5)
         self.particles = Particles(self, image=particleimg)
-        self.paused = False
+        self.paused, self.shownbg = False, False
         self.pausetext = Text("Paused", 36, [255, 255, 255])
+        self.restarttext = Text("Restart?", 26, [255, 0, 0])
         self.initTimer()
 
     def loop(self, events):
@@ -25,12 +26,34 @@ class Core:
                     self.paused = not self.paused
                     self.timer = time.time()
         if self.paused:
-            self.pausetext.loop()
+            self.dopause()
             return
+        self.shownbg = False
         self.particles.loop()
         self.scene.loop()
         self.camera.loop()
         self.doTimer()
+
+    def dopause(self):
+        screen = pygame.display.get_surface()
+        if not self.shownbg:
+            self.bg = pygame.Surface(screen.get_size())
+            self.bg.set_alpha(150)
+            self.bg.fill((0,0,0))
+            screen.blit(self.bg, (0,0))
+            self.shownbg = True
+        self.pausetext.loop()
+        self.restarttext.x = (pygame.display.get_surface().get_width() / 2) - (self.restarttext.surf.get_width() / 2)
+        self.restarttext.y = (pygame.display.get_surface().get_height() / 2) - (self.restarttext.surf.get_height() / 2) + 36
+        textrect = pygame.Rect(self.restarttext.x, self.restarttext.y, self.restarttext.get_width(), self.restarttext.get_height())
+        if textrect.collidepoint(pygame.mouse.get_pos()):
+            self.restarttext.color = [255, 255, 255]
+            for event in self.events:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    self.restart()
+        else:
+            self.restarttext.color = [255, 0, 0]
+        self.restarttext.loop()
 
     def initTimer(self):
         if hasattr(self, "timertext"):
@@ -58,3 +81,4 @@ class Core:
         self.scene = Start(self)
         self.Camera = Camera(self)
         self.initTimer()
+        self.paused = False

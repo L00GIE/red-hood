@@ -29,6 +29,9 @@ class Dawn(Scene):
     def loop(self):
         self.checkBounds()
         self.checkClick()
+        if not self.find(self.healthdrop):
+            self.removetext()
+            self.add(Text("Interesting choice...", 36, [255, 255, 255]))
         pygame.display.get_surface().fill([255, 255, 255])
         self.applygravity() # this is where gravity is applied to every non-stationary object in the scene
         super().loop() # this is where every object in the scene has its loop() called
@@ -64,10 +67,7 @@ class Dawn(Scene):
                 if event.type == pygame.MOUSEBUTTONDOWN and self.find(self.healthdrop):
                     if event.button == 1:
                         self.remove(self.healthdrop)
-                        for obj in self.layers[4]:
-                            if isinstance(obj, Text):
-                                self.remove(obj)
-                        self.remove(self.exchimg)
+                        self.removetext()
                         self.add(DamageDrop(self.core, (600, 0)))
                         self.add(Text("Interesting choice...", 36, [255, 255, 255]))
         else:
@@ -95,6 +95,12 @@ class Dawn(Scene):
     def initEnemy(self):
         pass
 
+    def removetext(self):
+        for obj in self.layers[4]:
+            if isinstance(obj, Text):
+                self.remove(obj)
+        self.remove(self.exchimg)
+
     def initBackgrounds(self):
         bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_1.png").convert(), (1366,768))
         bgimg2 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_2.png").convert_alpha(), (1366,768))
@@ -113,11 +119,5 @@ class Dawn(Scene):
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 32, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((0, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((32, 64, 32, 32)), (128, 128)),
-            pygame.transform.scale(ss.subsurface((64, 64, 32, 32)), (128, 128))
+            pygame.transform.scale(ss.subsurface((64, 0, 32, 32)), (128, 128))
         ]

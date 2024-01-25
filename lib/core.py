@@ -1,5 +1,4 @@
 from lib.healthbar import HealthBar
-from lib.scenes.grandmas import Grandmas
 from lib.scenes.start import Start
 from lib.camera import Camera
 from lib.particles import Particles
@@ -11,7 +10,7 @@ class Core:
 
     def __init__(self):
         self.player = Player(self) # initialize player
-        self.scene = Grandmas(self) # initialize start scene
+        self.scene = Start(self) # initialize start scene
         self.camera = Camera(self)
         particleimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/particle.png").convert_alpha(), 0.5)
         self.particles = Particles(self, image=particleimg)

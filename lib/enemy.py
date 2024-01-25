@@ -42,7 +42,7 @@ class Enemy:
             self.currentanimation = self.hitLeftAnimation
 
     def doDrop(self):
-        if random.randint(1, 2) == 1:
+        if random.randint(1, 3) == 1:
             self.core.scene.add(HealthDrop(self.core, (self.x, self.y - 1000)))
         else:
             self.core.scene.add(DamageDrop(self.core, (self.x, self.y - 1000)))

@@ -18,8 +18,13 @@ class Projectile:
         self.mass = 0.5
         self.collider = Collider(self, antigrav=True)
         self.madesound = False
+        self.lifespan = 100
+        self.timer = 0
 
     def loop(self, img=None):
+        self.timer += 1
+        if self.timer >= self.lifespan:
+            self.parent.core.scene.remove(self)
         if img is not None:
             self.image = img
         self.checkbounds()
@@ -37,7 +42,6 @@ class Projectile:
                     self.collider.colliding(obj):
                     if hasattr(obj, "hp"):
                         if isinstance(obj, type(self.parent)): continue
-                        if obj == self.parent: continue
                         obj.takehit(self.parent.dmg)
                         self.parent.core.scene.remove(self)
 

@@ -1,3 +1,5 @@
+from lib.healthbar import HealthBar
+from lib.scenes.grandmas import Grandmas
 from lib.scenes.start import Start
 from lib.camera import Camera
 from lib.particles import Particles
@@ -9,7 +11,7 @@ class Core:
 
     def __init__(self):
         self.player = Player(self) # initialize player
-        self.scene = Start(self) # initialize start scene
+        self.scene = Grandmas(self) # initialize start scene
         self.camera = Camera(self)
         particleimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/particle.png").convert_alpha(), 0.5)
         self.particles = Particles(self, image=particleimg)
@@ -77,6 +79,10 @@ class Core:
         self.timertext.loop()
 
     def restart(self):
+        for obj in self.scene.layers[6]:
+            if isinstance(obj, HealthBar) and \
+                obj.parent is not self.player:
+                self.scene.remove(obj)
         self.player = Player(self)
         self.scene = Start(self)
         self.Camera = Camera(self)

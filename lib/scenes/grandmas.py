@@ -44,11 +44,21 @@ class Grandmas(Scene):
     def initObjects(self):
         ss = pygame.image.load("data/assets/objects/TX Village Props.png").convert_alpha()
         signimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/donotentersign.png").convert_alpha(), 0.8)
+        boximg = pygame.transform.scale(ss.subsurface((41, 18, 47, 45)), (100, 100))
         scaffoldimg = pygame.transform.scale(ss.subsurface((187, 162, 72, 64)), (216, 192))
         scaffold = StaticImage(scaffoldimg, (800, 520))
         signtext = StaticImage(signimg, (scaffold.x + 50, scaffold.y + 20))
+        """box = Collidable(self.core, 400, -200, 100, 100, mass=1, image=boximg)
+        box2 = Collidable(self.core, 800, pygame.display.get_surface().get_height() - 250, 100, 100, mass=10, image=boximg, stationary=True)
+        box3 = Collidable(self.core, 900, pygame.display.get_surface().get_height() - 350, 100, 100, mass=10, image=boximg, stationary=True)
+        box4 = Collidable(self.core, 1000, pygame.display.get_surface().get_height() - 450, 100, 100, mass=10, image=boximg, stationary=True)
+        box5 = Collidable(self.core, 1100, pygame.display.get_surface().get_height() - 450, 100, 100, mass=10, image=boximg, stationary=True)
+        box6 = Collidable(self.core, 1200, pygame.display.get_surface().get_height() - 450, 100, 100, mass=10, image=boximg, stationary=True)"""
         self.add(scaffold)
         self.add(signtext)
+        """self.addAll([
+            box, box2, box3, box4, box5, box6
+        ])"""
 
     def initBackgrounds(self):
         bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/dawn/2.png").convert(), (1366,768))

@@ -41,16 +41,16 @@ class Start(Scene):
         signimg = pygame.transform.scale_by(pygame.image.load("data/assets/objects/donotentersign.png").convert_alpha(), 0.8)
         boximg = pygame.transform.scale(ss.subsurface((41, 18, 47, 45)), (100, 100))
         scaffoldimg = pygame.transform.scale(ss.subsurface((187, 162, 72, 64)), (216, 192))
+        treeimg = pygame.transform.scale_by(ss.subsurface((830, 446, 156, 163)), 2)
         box = Collidable(self.core, 400, -200, 100, 100, mass=1, image=boximg)
         scaffold = Collidable(self.core, 800, 520, scaffoldimg.get_width(), scaffoldimg.get_height(), stationary=True, image=scaffoldimg)
         scaffold1 = Collidable(self.core, 800 + scaffoldimg.get_width() - 20, 520, scaffoldimg.get_width(), scaffoldimg.get_height(), stationary=True, image=scaffoldimg)
         signtext = StaticImage(signimg, (scaffold.x + 50, scaffold.y + 20))
         signtext1 = StaticImage(signimg, (scaffold1.x + 50, scaffold1.y + 20))
-        self.add(box)
-        self.add(scaffold)
-        self.add(scaffold1)
-        self.add(signtext)
-        self.add(signtext1)
+        tree = StaticImage(treeimg, (1300, 375))
+        self.addAll([
+            box, scaffold, scaffold1, signtext, signtext1, tree
+        ])
 
     def initBackgrounds(self):
         bgimg1 = pygame.transform.scale(pygame.image.load("data/assets/backgrounds/forest/background_layer_1.png").convert(), (1366,768))

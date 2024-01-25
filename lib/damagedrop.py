@@ -1,5 +1,6 @@
 import pygame
 from lib.collider import Collider
+from lib.hitnumber import HitNumber
 
 class DamageDrop:
     def __init__(self, core, pos):
@@ -19,6 +20,7 @@ class DamageDrop:
         if self.collider.colliding(self.core.player):
             self.core.scene.remove(self)
             self.core.player.dmg += 1
+            self.core.scene.add(HitNumber(self.core, self.core.player, "+1 Damage", colorval=[255, 255, 255]))
 
     def initSprite(self):
         sprite = pygame.image.load("data/assets/objects/14 - Twin serrated swords.png").convert_alpha()

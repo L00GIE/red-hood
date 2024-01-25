@@ -1,5 +1,6 @@
 import pygame
 from lib.collider import Collider
+from lib.hitnumber import HitNumber
 
 class HealthDrop:
     def __init__(self, core, pos):
@@ -19,6 +20,7 @@ class HealthDrop:
         if self.collider.colliding(self.core.player):
             self.core.scene.remove(self)
             self.core.player.hp = self.core.player.maxhp
+            self.core.scene.add(HitNumber(self.core, self.core.player, "Health Restored", colorval=[255, 255, 255]))
 
     def initSprite(self):
         ss = pygame.image.load("data/assets/ui/icons.png").convert_alpha()

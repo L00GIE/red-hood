@@ -9,7 +9,7 @@ class Grandma(Enemy):
 
     def __init__(self, core):
         self.core = core
-        self.x = 800
+        self.x = 1500
         self.y = 200
         self.w = 160
         self.h = self.w
@@ -106,8 +106,13 @@ class Slipper:
         self.mass = 0.1
         self.collider = Collider(self, antigrav=True)
         self.angle = 0
+        self.lifespan = 100
+        self.timer = 0
 
     def loop(self):
+        self.timer += 1
+        if self.timer >= self.lifespan:
+            self.parent.core.scene.remove(self)
         img = self.slipperimgs[self.slipperindex]
         self.slipperindex += 1
         if self.slipperindex >= len(self.slipperimgs):

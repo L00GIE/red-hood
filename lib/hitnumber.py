@@ -2,7 +2,7 @@ import pygame
 
 class HitNumber:
 
-    def __init__(self, core, parent, value):
+    def __init__(self, core, parent, value, colorval=None):
         self.core = core
         self.parent = parent
         font = pygame.font.Font("data/assets/fonts/dogica.ttf", 24)
@@ -10,6 +10,8 @@ class HitNumber:
             color = [255, 0, 0]
         else:
             color = [255, 255, 255]
+        if colorval is not None:
+            color = colorval 
         self.text = font.render(str(value), True, color)
         self.x, self.y = self.parent.x, self.parent.y
         self.ticks = 0

@@ -14,8 +14,7 @@ class Player:
         self.maxy = 0
         self.mass = 10
         self.speed, self.minspeed, self.maxspeed = 0, 3, 6
-        self.dmg = 2
-        self.maxdmg = 5
+        self.dmg = 5
         self.hp, self.maxhp = 100, 100
         self.healthbar = HealthBar(self)
         self.initAnimations()
@@ -242,7 +241,7 @@ class Player:
         self.jumpLeftAnimation = Animation(jumpsprites, self, delay=2, flipx=True)
         ss = pygame.image.load("data/assets/player/shoot sheet.png").convert_alpha()
         shootsprites = []
-        for x in range(24):
+        for x in range(23):
             shootsprites.append(ss.subsurface(((spritesize * x) + 10, 20, spritesize, spritesize)))
         shootsprites = shootsprites[::2]
         self.shootLeftAnimation = Animation(shootsprites, self, delay=2)

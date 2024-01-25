@@ -12,6 +12,10 @@ class Scene:
     def add(self, obj, layer=4):
         self.layers[layer].append(obj)
 
+    def addAll(self, objs, layer=4):
+        for obj in objs:
+            self.layers[layer].append(obj)
+
     def remove(self, obj):
         for layer in self.layers:
             if obj in layer:

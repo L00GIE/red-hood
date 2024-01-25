@@ -15,7 +15,7 @@ class Mushroom(Enemy):
         self.y = 200
         self.w = 160 if boss else 80
         self.h = self.w
-        self.hp = 100 if boss else 15
+        self.hp = 300 if boss else 60
         self.maxhp = self.hp
         if boss:
             self.healthbar = HealthBar(self, title="Shroomsy", rightside=True)
@@ -30,6 +30,7 @@ class Mushroom(Enemy):
         self.dropped = False
 
     def loop(self):
+        self.checkcollision()
         if self.hp <= 0:
             if self.direction == "e":
                 self.currentanimation = self.dieRightAnimation

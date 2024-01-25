@@ -70,7 +70,7 @@ class City(Scene):
         self.add(Background(self.core, vignette), 5)
 
     def initFloorTiles(self):
-        ss = pygame.image.load("data/assets/objects/TX Tileset Ground.png").convert_alpha()
+        ss = pygame.image.load("data/assets/objects/TX Tileset Street.png").convert_alpha()
         self.floortiles = [
             pygame.transform.scale(ss.subsurface((0, 0, 32, 32)), (128, 128)),
             pygame.transform.scale(ss.subsurface((32, 0, 32, 32)), (128, 128)),
